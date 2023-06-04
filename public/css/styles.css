@@ -124,6 +124,20 @@ nav ul li{
   border: solid 2pt black;
   margin:5pt;
 }
+#errorpage{
+  position: relative;
+}
+.errorimg{
+  display: flex;
+  width: 450px;
+
+}
+.errormesg{
+  position: absolute;
+  background-color: rgba(233, 229, 229, 0.5);
+  top:10pt;
+  /* left: 15pt; */
+}
 @media screen and (min-width: 600px) {
   html{
     background-image: url("../images/site/checkerboard.jpg");

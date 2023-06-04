@@ -57,3 +57,39 @@ Util.buildClassificationGrid = async function(data){
   }
   return grid
 }
+/* ****************************************
+ * Middleware For Handling Errors
+ * Wrap other function in this for 
+ * General Error Handling
+ **************************************** */
+Util.handleErrors = fn => (req, res, next) => Promise.resolve(fn(req, res, next)).catch(next)
+/* ****************************************
+* Display only specific vehicle's info
+ **************************************** */
+Util.displayDetail = async function (data) {
+  let detail
+  // if (data.length > 0) {
+    detail = '<div id="single-display">'
+      detail += '<div>'
+      detail += '<img src="' + data.inv_image + 'alt="Image of ' + data.inv_make + ' ' + data.inv_model + '"/>'
+      detail += '<div class="vehicle-detail">'
+      detail += '<hr/>'
+      detail += '<h2>' + data.inv_year + ' ' + data.inv_make + ' ' + data.inv_model + '</h2>'
+    detail += '<hr/>'
+    
+    detail += '<h3>Price: $'+ new Intl.NumberFormat('en-US').format(data.inv_price) + '</h3>'
+    detail += '<hr/>'
+    detail += '<p>' + 'Description: ' + data.inv_description + '</p>'
+    detail += '<hr/>'
+    detail += '<p> Miles:'+ data.inv_miles +'</p>'
+    detail += '<hr/>'
+    detail += '<p> Color:'+ data.inv_color +'</p>'
+    detail += '<hr/>'
+    
+    detail += '</div>'
+      detail += '</div>'
+  // } else {
+  //   detail += '<p class="notice">Sorry, no matching data could be found.</p>'
+  // }
+  return detail
+}
