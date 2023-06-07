@@ -6,6 +6,9 @@
 *:after {
   box-sizing: border-box;
 } */
+html{
+  display: flex;
+}
 body{
   font-family: Ubuntu;
 }
@@ -52,20 +55,53 @@ body{
 }
 a{
   text-decoration: none;
+  display: block;
+}
+li{
+  list-style: none;
 }
 nav ul{
+  display: flex;
+  padding: 0;
+}
+nav ul li{
   list-style: none;
   margin:0;
   padding: 0;
-  display: flex;
+  display: inline-block;
   background-color: black;
+  width: 100%;
 }
-nav ul li{
+nav ul li a{
   list-style-type: none;
   background-color: black;
   color: white;
   margin:10pt;
+  /* display: flex; */
+}
+
+/* individual car display */
+.vehicle-display {
+  list-style-type: none;
+  border: 2px solid black;
+  border-radius: 50px;
+  margin: auto;
+  padding: 0;
   display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+ .img-display{
+  width: 250px;
+  height:180px;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+}
+.namePrice{
+  display: flex;
+  align-items: center;
+  flex-direction: column;
 }
 .reviews li{
   margin: 5pt;
@@ -85,7 +121,8 @@ nav ul li{
 }
 .upgrades a{
   text-align: center;
-}.box1{
+}
+.box1{
   display: inline-block;
   grid-row: 2/3;
   grid-column: 1/2;
@@ -148,6 +185,7 @@ nav ul li{
     padding: 10pt;
     border: 3pt solid blue;
     border-radius: 5pt;
+    width: 80%;
   }
   nav ul li{
     float: none;
@@ -155,7 +193,7 @@ nav ul li{
     width: 100%;
     text-align: center;
   }
-  main{
+  .home_page{
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-template-rows: 1fr 1fr;
@@ -181,5 +219,39 @@ nav ul li{
   .upgrades{
     grid-column: 1/2;
     grid-row: 2/3;
+  }
+  main h1{
+    display: inline-block;
+    /* margin: auto; */
+  }
+  #inv-display{
+    display: flex;
+    flex-wrap: wrap;
+
+  }
+  .vehicle-display{
+    padding: 10px;
+    justify-content: space-between;
+    margin-top: 10px;
+
+  }
+   li img a{
+    align-items: center;
+
+  }
+  .namePrice{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+  }
+  #single-display{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+  #single-picture{
+    grid-column: 1/2;
+  }
+  .vehicle-detail{
+    grid-column: 2/3;
   }
 }

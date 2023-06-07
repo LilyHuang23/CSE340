@@ -11,6 +11,8 @@ const env = require("dotenv").config()
 const app = express()
 const baseController = require("./controllers/baseController")
 const utilities = require("./utilities/")
+const session = require("express-session")
+const pool = require('./database/')
 /* ***********************
  * View Engine and Templates
  *************************/
@@ -27,9 +29,9 @@ app.get("/", baseController.buildHome)
 // Inventory routes
 app.use("/inv", require("./routes/inventoryRoute"))
 // 500 Error - must be last route in list
-app.use(async (req, res, next) => {
-  next({status: 500, message: 'Sorry, the server encountered an unexpected condition.'})
-})
+// app.use(async (req, res, next) => {
+//   next({status: 500, message: 'Sorry, the server encountered an unexpected condition.'})
+// })
 // File Not Found Route - must be last route in list
 app.use(async (req, res, next) => {
   next({status: 404, message: 'Sorry, we appear to have lost that page.'})
@@ -39,15 +41,15 @@ app.get("/", utilities.handleErrors(baseController.buildHome))
 /* ***********************
 * 500 Express Error Handler
 *************************/
-app.use(async (err, req, res, next) => {
-  let nav = await utilities.getNav()
-  console.error(`Error at: "${req.originalUrl}": ${err.message ="the server encountered an unexpected condition that prevented it from fulfilling the request"}`)
-  res.render("errors/error", {
-    title: err.status || 'Server Error',
-    message: err.message,
-    nav
-  })
-})
+// app.use(async (err, req, res, next) => {
+//   let nav = await utilities.getNav()
+//   console.error(`Error at: "${req.originalUrl}": ${err.message ="the server encountered an unexpected condition that prevented it from fulfilling the request"}`)
+//   res.render("errors/500error", {
+//     title: err.status || 'Server Error',
+//     message: err.message,
+//     nav
+//   })
+// })
 
 /* ***********************
 * Express Error Handler

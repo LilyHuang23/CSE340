@@ -33,23 +33,27 @@ Util.buildClassificationGrid = async function(data){
   if(data.length > 0){
     grid = '<ul id="inv-display">'
     data.forEach(vehicle => { 
-      grid += '<li>'
+      // grid += '<div class="vehicle-display">'
+      grid += '<li class="vehicle-display">'
+      grid += '<div class="img-display">'
       grid +=  '<a href="../../inv/detail/'+ vehicle.inv_id 
       + '" title="View ' + vehicle.inv_make + ' '+ vehicle.inv_model 
       + 'details"><img src="' + vehicle.inv_thumbnail 
-      +'" alt="Image of '+ vehicle.inv_make + ' ' + vehicle.inv_model 
-      +' on CSE Motors" /></a>'
+      +'" alt="'+ vehicle.inv_make + ' ' + vehicle.inv_model 
+        + ' on CSE Motors" /></a>'
+      grid += '</div>'
+
       grid += '<div class="namePrice">'
-      grid += '<hr />'
-      grid += '<h2>'
+      grid += '<p>'
       grid += '<a href="../../inv/detail/' + vehicle.inv_id +'" title="View ' 
       + vehicle.inv_make + ' ' + vehicle.inv_model + ' details">' 
       + vehicle.inv_make + ' ' + vehicle.inv_model + '</a>'
-      grid += '</h2>'
+      grid += '</p>'
       grid += '<span>$' 
       + new Intl.NumberFormat('en-US').format(vehicle.inv_price) + '</span>'
       grid += '</div>'
       grid += '</li>'
+      // grid += '</div>'
     })
     grid += '</ul>'
   } else { 
@@ -70,24 +74,21 @@ Util.displayDetail = async function (data) {
   let detail
   // if (data.length > 0) {
     detail = '<div id="single-display">'
-      detail += '<div>'
-      detail += '<img src="' + data.inv_image + 'alt="Image of ' + data.inv_make + ' ' + data.inv_model + '"/>'
+      detail += '<div id="single-picture">'
+        detail += '<img src="' + data.inv_image + '" alt="Image_of_' + data.inv_make + '_'+ data.inv_model + '"/>'
+        detail += '</div>'
       detail += '<div class="vehicle-detail">'
-      detail += '<hr/>'
-      detail += '<h2>' + data.inv_year + ' ' + data.inv_make + ' ' + data.inv_model + '</h2>'
-    detail += '<hr/>'
-    
+      detail += '<h2>' + data.inv_year + ' ' + data.inv_make + ' ' + data.inv_model + '</h2>'    
     detail += '<h3>Price: $'+ new Intl.NumberFormat('en-US').format(data.inv_price) + '</h3>'
-    detail += '<hr/>'
+
     detail += '<p>' + 'Description: ' + data.inv_description + '</p>'
-    detail += '<hr/>'
+
     detail += '<p> Miles:'+ data.inv_miles +'</p>'
-    detail += '<hr/>'
-    detail += '<p> Color:'+ data.inv_color +'</p>'
-    detail += '<hr/>'
-    
+ 
+    detail += '<p> Color:'+ data.inv_color +'</p>'    
     detail += '</div>'
-      detail += '</div>'
+    detail += '</div>'
+
   // } else {
   //   detail += '<p class="notice">Sorry, no matching data could be found.</p>'
   // }

@@ -1,3 +1,8 @@
+<% if (title) { %>
+<h1><%= title %></h1>
+<% } else {
+    res.redirect('/')
+} %>
 <div id="errorpage">
 <div class="errormesg">
     <h1>Looks like this page is unavailable</h1>
@@ -6,3 +11,4 @@
     </div>
 <img class="errorimg" src="/images/site/error.jpg" alt="https://unsplash.com/photos/NodtnCsLdTE?utm_source=unsplash&utm_medium=referral&utm_content=creditShareLink"/>
 </div>
+<p><%= message %></p>

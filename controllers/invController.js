@@ -36,7 +36,7 @@ invCont.detailByInventoryId = async function (req, res, next) {
   const model = data.inv_model
 
   res.render("./inventory/detail", {
-    title: year + make + model,
+    title: year + " " + make + " " + model,
     nav,
     detail,
   })
