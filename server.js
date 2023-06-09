@@ -13,6 +13,33 @@ const baseController = require("./controllers/baseController")
 const utilities = require("./utilities/")
 const session = require("express-session")
 const pool = require('./database/')
+const bodyParser = require("body-parser")
+
+// const account = require(".//")
+/* ***********************
+ * Middleware
+ * ************************/
+app.use(session({
+  store: new (require('connect-pg-simple')(session))({
+    createTableIfMissing: true,
+    pool,
+  }),
+  secret: process.env.SESSION_SECRET,
+  resave: true,
+  saveUninitialized: true,
+  name: 'sessionId',
+}))
+// Express Messages Middleware
+app.use(require('connect-flash')())
+app.use(function(req, res, next){
+  res.locals.messages = require('express-messages')(req, res)
+  next()
+})
+
+// for parsing application/x-www-form-urlencoded
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: true }))
+
 /* ***********************
  * View Engine and Templates
  *************************/
@@ -38,18 +65,8 @@ app.use(async (req, res, next) => {
 })
 // Index route
 app.get("/", utilities.handleErrors(baseController.buildHome))
-/* ***********************
-* 500 Express Error Handler
-*************************/
-// app.use(async (err, req, res, next) => {
-//   let nav = await utilities.getNav()
-//   console.error(`Error at: "${req.originalUrl}": ${err.message ="the server encountered an unexpected condition that prevented it from fulfilling the request"}`)
-//   res.render("errors/500error", {
-//     title: err.status || 'Server Error',
-//     message: err.message,
-//     nav
-//   })
-// })
+// account route
+app.use("/account", require("./routes/accountRoute"))
 
 /* ***********************
 * Express Error Handler

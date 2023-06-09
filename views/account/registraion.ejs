@@ -1,0 +1,33 @@
+<% if (title) { %>
+<h1><%= title %></h1>
+<% } else {
+    res.redirect('/')
+} %>
+
+<% if (errors) { %>
+    <ul class="notice">
+<% errors.array().forEach(error => { %>
+    <li><%= error.msg %></li>
+<%  }) %>
+</ul>
+<% } %>
+      <%- messages() %>
+<form action="/account/register" method="post">
+    <p>All field are required</p>
+    <fieldset>
+        <label for="accountFirstname">First name:</label><br>
+        <input type="text" id="account_firstname" name="account_firstname" required value="<%= locals.account_firstname %>"><br>
+        <label for="accountLastname">Last name:</label><br>
+        <input type="text" id="account_lastname" name="account_lastname" required value="<%= locals.account_lastname %>">
+        <label for="accountEmail">Email:</label><br>
+        <input type="email" id="account_email" name="account_email" 
+        pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" required placeholder="Enter a valid email address" value="<%= locals.account_email %>"><br>
+        <label for="accountPassword">Password:</label><br>
+        <input type="password" id="account_password" name="account_password" 
+        pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{12,}$" title="Must contain at least one
+         number and one uppercase and lowercase letter, and at least 12 or more characters" required>
+         <span>Password must be minimum of 12 characters and include 1 capital letter, 1 number and 1 special character.</span>
+         <span id="pswdBtn">Show Password</span> 
+         <button class="registerBtn"type="submit">Register</button>
+    </fieldset>
+</form>
