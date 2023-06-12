@@ -2,9 +2,9 @@
 // Needed Resources 
 const express = require("express")
 const router = new express.Router() 
-const accountController = require("../controllers/accountController")
+const accountController = require("../controllers/managementController")
 const utilities = require("../utilities/index")
-const regValidate = require('../utilities/account-validation')
+const regValidate = require('../utilities/management-validation')
 // deliver login view
 router.get("/login", utilities.handleErrors(accountController.buildLogin));
 // deliver registration view

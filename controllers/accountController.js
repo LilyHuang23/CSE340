@@ -8,7 +8,7 @@ const accountModel = require('../models/account-model')
 * *************************************** */
 async function buildLogin(req, res, next) {
     let nav = await utilities.getNav()
-    res.render("account/login", {
+    res.render("./account/login", {
         title: "Login",
         nav,
         errors: null,
@@ -19,9 +19,10 @@ async function buildLogin(req, res, next) {
 * *************************************** */
 async function buildRegister(req, res, next) {
     let nav = await utilities.getNav()
-    res.render("account/register", {
+    res.render("account/registration", {
       title: "Register",
       nav,
+      errors:null,
     })
   }
 /* ****************************************
@@ -37,7 +38,7 @@ async function registerAccount(req, res) {
     hashedPassword = await bcrypt.hashSync(account_password, 10)
   } catch (error) {
     req.flash("notice", 'Sorry, there was an error processing the registration.')
-    res.status(500).render("account/register", {
+    res.status(500).render("account/registration", {
       title: "Registration",
       nav,
       errors: null,
@@ -61,19 +62,19 @@ async function registerAccount(req, res) {
       })
     } else {
       req.flash("notice", "Sorry, the registration failed.")
-      res.status(501).render("account/register", {
+      res.status(501).render("account/registration", {
         title: "Registration",
         nav,
       })
     }
 }
-async function buildLogRegister(req, res) {
-    let nav = await utilities.getNav()
-    res.render("account/register", {
-        title: "Register",
-        nav,
-      })
+// async function buildLogRegister(req, res) {
+//     let nav = await utilities.getNav()
+//     res.render("account/register", {
+//         title: "Register",
+//         nav,
+//       })
     
-} 
-module.exports = { buildLogin, buildRegister, registerAccount, buildLogRegister}
+// } 
+module.exports = { buildLogin, buildRegister, registerAccount,}
   

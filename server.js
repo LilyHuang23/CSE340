@@ -10,6 +10,7 @@ expressLayouts = require("express-ejs-layouts")
 const env = require("dotenv").config()
 const app = express()
 const baseController = require("./controllers/baseController")
+const accountRoute = require("./routes/accountRoute")
 const utilities = require("./utilities/")
 const session = require("express-session")
 const pool = require('./database/')
@@ -55,19 +56,16 @@ app.use(require("./routes/static"))
 app.get("/", baseController.buildHome) 
 // Inventory routes
 app.use("/inv", require("./routes/inventoryRoute"))
-// 500 Error - must be last route in list
-// app.use(async (req, res, next) => {
-//   next({status: 500, message: 'Sorry, the server encountered an unexpected condition.'})
-// })
+// Index route
+app.get("/", utilities.handleErrors(baseController.buildHome))
+// account route
+app.use("/account", accountRoute)
+// Management routes
+app.use("/inv", require("./routes/managementRoute"))
 // File Not Found Route - must be last route in list
 app.use(async (req, res, next) => {
   next({status: 404, message: 'Sorry, we appear to have lost that page.'})
 })
-// Index route
-app.get("/", utilities.handleErrors(baseController.buildHome))
-// account route
-app.use("/account", require("./routes/accountRoute"))
-
 /* ***********************
 * Express Error Handler
 * Place after all other middleware
