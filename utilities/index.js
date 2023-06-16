@@ -1,4 +1,4 @@
-const invModel = require("../models/inventory-model")
+const invModel = require("../models/inventoryModel")
 const Util = {}
 
 /* ************************
@@ -23,8 +23,21 @@ Util.getNav = async function (req, res, next) {
   list += "</ul>"
   return list
 }
-
-module.exports = Util
+/* ************************
+ * Constructs classification list in the add new vehicle form
+ ************************** */
+Util.getClassificationOptions = async function (optionSelected) {
+  let data = await invModel.getClassifications()
+  let options = "<option value = ''>Choose a Classification</option>"
+  data.rows.forEach((row) => {
+    options += `
+    <option value ="${row.classification_id}" ${row.classification_id === Number(optionSelected) ? 'selected' : ''}
+    >
+    ${row.classification_name}
+    </option>`
+  })
+  return options
+}
 /* **************************************
 * Build the classification view HTML
 * ************************************ */
@@ -62,12 +75,6 @@ Util.buildClassificationGrid = async function(data){
   return grid
 }
 /* ****************************************
- * Middleware For Handling Errors
- * Wrap other function in this for 
- * General Error Handling
- **************************************** */
-Util.handleErrors = fn => (req, res, next) => Promise.resolve(fn(req, res, next)).catch(next)
-/* ****************************************
 * Display only specific vehicle's info
  **************************************** */
 Util.displayDetail = async function (data) {
@@ -94,3 +101,11 @@ Util.displayDetail = async function (data) {
   // }
   return detail
 }
+
+/* ****************************************
+ * Middleware For Handling Errors
+ * Wrap other function in this for 
+ * General Error Handling
+ **************************************** */
+Util.handleErrors = fn => (req, res, next) => Promise.resolve(fn(req, res, next)).catch(next)
+module.exports = Util

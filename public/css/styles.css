@@ -177,6 +177,47 @@ nav ul li a{
 }
 /* account activity */
 /* form sign in  */
+#loginForm, #registrationForm{
+  background: rgb(146, 146, 241);
+  border: 2px solid black;
+  border-radius: 5%;
+  height: 500px;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  align-items: center;
+}
+
+label{
+  display: flex;
+  align-items: baseline;
+  margin-top: 10px;
+}
+input[type="text"],
+input[type="email"],
+input[type="password"],
+select,
+textarea{
+  font: 1.25rem / 1.5 sans-serif;
+  display: block;
+  box-sizing: border-box;
+  width: 80%;
+  padding: 0.5rem 0.75rem;
+}
+#pswdBtn, input[type=submit] {
+  width: 80%;
+  background-color: #4a30d9;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+#pswdBtn, input[type=submit]:hover {
+  background-color: #654cf1;
+}
 /* form register */
 /* Styling valid/invalid inputs using CSS */
 input:required:invalid, input:focus:invalid {
@@ -268,5 +309,24 @@ input:required:invalid, input:focus:invalid {
   }
   .vehicle-detail{
     grid-column: 2/3;
+  }
+  /* login form */
+  .login-page, .registration-page{
+    display: flex;
+    justify-content: center;
+    }
+  #loginForm, #registrationForm{
+    background: rgb(146, 146, 241);
+    border: 2px solid black;
+    border-radius: 5%;
+    height: 500px;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    align-items: center;
+    width: 60%;
+  }
+  #registrationForm{
+    height: 700px;
   }
 }
