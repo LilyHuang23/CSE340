@@ -8,7 +8,7 @@ const invCont = {}
  * ************************** */
 invCont.buildVehicleManagement = async function (req, res, next) {
   let nav = await utilities.getNav()
-  res.render("./inventory/management", {
+  res.render("/inventory/management", {
     title: "Vehicle Management",
     nav,
     errors: null
@@ -19,8 +19,8 @@ invCont.buildVehicleManagement = async function (req, res, next) {
  * ************************** */
 invCont.buildNewClassification = async function (req, res, next) {
   let nav = await utilities.getNav()
-  res.render("/inv/addClassification", {
-    title: "Add a new Classification",
+  res.render("/inventory/addClassification", {
+    title: "Add a New Classification",
     nav,
     errors: null
   })
@@ -31,8 +31,8 @@ invCont.buildNewClassification = async function (req, res, next) {
 invCont.buildNewVehicle = async function (req, res, next) {
   let nav = await utilities.getNav()
   let classificationList = await utilities.getClassificationOptions()
-  res.render("./inventory/addVehicle", {
-    title: "Add a new Vehicle",
+  res.render("./inv/addInventory", {
+    title: "Add a New Vehicle",
     nav,
     classificationList,
     errors: null
@@ -95,12 +95,16 @@ invCont.addClassification = async function (req, res) {
     res.status(201).render("inventory/management", {
       title: "Vehicle Management",
       nav,
+      errors: null,
+
     })
   } else {
     req.flash("notice", "Sorry, we couldn't add your classification.")
-    res.status(501).render("inventory/add-classification", {
-      title: "Add Classification",
+    res.status(501).render("inventory/addClassification", {
+      title: "Add a New Classification",
       nav,
+      errors: null,
+
     })
   }
 }
@@ -110,9 +114,9 @@ invCont.addClassification = async function (req, res) {
 invCont.addVehicle = async function (req, res, next) {
   let nav = await utilities.getNav()
   const {
-    classification_name, inv_make, inv_model, inv_description, inv_image,
+    classification_id, inv_make, inv_model, inv_description, inv_image,
     inv_thumbnail, inv_price, inv_year, inv_miles, inv_color } = req.body
-  const vehicleResult = await invModel.addVehicle(classification_name, inv_make,
+  const vehicleResult = await invModel.addVehicle(classification_id, inv_make,
     inv_model, inv_description, inv_image, inv_thumbnail, inv_price,
     inv_year, inv_miles, inv_color)
   if (vehicleResult) {
@@ -123,12 +127,14 @@ invCont.addVehicle = async function (req, res, next) {
     res.status(201).render("inventory/management", {
       title: "Vehicle Management",
       nav,
+      errors: null,
     })
   } else {
     req.flash("notice", "Sorry, we couldn't add this vehicle.")
-    res.status(501).render("inventory/addinventory", {
-      title: "Add Vehicle",
+    res.status(501).render("inventory/addInventory", {
+      title: "Add a New Vehicle",
       nav,
+      errors: null,
     })
     }
   

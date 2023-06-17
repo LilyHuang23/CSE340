@@ -107,7 +107,7 @@ validate.checkClassificationData = async (req, res, next) => {
     errors = validationResult(req)
     if (!errors.isEmpty()) {
       let nav = await utilities.getNav()
-      res.render("/inv/add-classification", {
+      res.render("/inv/inventory/addClassification", {
         errors,
         title: "Management",
         nav,
@@ -136,7 +136,7 @@ validate.checkVehicleData = async (req, res, next) => {
     errors = validationResult(req)
     if (!errors.isEmpty()) {
       let nav = await utilities.getNav()
-      res.render("/inv/addinventory", {
+      res.render("/inv/inventory/addInventory", {
         errors,
         title: "Management",
         nav,

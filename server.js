@@ -56,13 +56,12 @@ app.use(require("./routes/static"))
 // Index route
 app.get("/", baseController.buildHome) 
 // Inventory routes
+// Management routes
 app.use("/inv", invRoute)
 // Index route
 app.get("/", utilities.handleErrors(baseController.buildHome))
 // account route
 app.use("/account", accountRoute)
-// Management routes
-// app.use("/inv", require("./routes/inventoryRoute"))
 // File Not Found Route - must be last route in list
 app.use(async (req, res, next) => {
   next({status: 404, message: 'Sorry, we appear to have lost that page.'})

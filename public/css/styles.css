@@ -177,11 +177,10 @@ nav ul li a{
 }
 /* account activity */
 /* form sign in  */
-#loginForm, #registrationForm{
+#loginForm, #registrationForm, #classificationForm, #inventoryForm{
   background: rgb(146, 146, 241);
   border: 2px solid black;
   border-radius: 5%;
-  height: 500px;
   display: flex;
   flex-wrap: wrap;
   flex-direction: column;
@@ -204,7 +203,7 @@ textarea{
   width: 80%;
   padding: 0.5rem 0.75rem;
 }
-#pswdBtn, input[type=submit] {
+#pswdBtn, .addVehicleBtn, .addClassificationBtn, input[type=submit] {
   width: 80%;
   background-color: #4a30d9;
   color: white;
@@ -215,7 +214,7 @@ textarea{
   cursor: pointer;
 }
 
-#pswdBtn, input[type=submit]:hover {
+#pswdBtn, .addVehicleBtn, .addClassificationBtn, input[type=submit]:hover {
   background-color: #654cf1;
 }
 /* form register */

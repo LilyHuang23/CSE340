@@ -24,7 +24,7 @@ Util.getNav = async function (req, res, next) {
   return list
 }
 /* ************************
- * Constructs classification list in the add new vehicle form
+ * Classification options list in the add new vehicle form
  ************************** */
 Util.getClassificationOptions = async function (optionSelected) {
   let data = await invModel.getClassifications()

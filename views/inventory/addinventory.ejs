@@ -6,15 +6,13 @@
         <!-- # disables this code. 
         you'll replace with mark (—) -->
     <%- messages() %>
-<form id="inventoryForm" action="/inv/addinventory" method="post">
+    <!-- <%- options %> -->
+<form id="inventoryForm" action="./inv/addInventory" method="post">
     <p>All field are required</p>
 <fieldset>
     <label for="classification_name">Choose a car:</label>
         <select id="classificationname" name="classification_name" required>
-        <option value=""></option>
-        <option value=""></option>
-        <option value=""></option>
-        <option value=""></option>
+            
         </select>
     <label for="inv_make">Make:</label><br>
     <input type="text" id="invmake" name="inv_make" required pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9]).{3,}$" title="Min of 3 characters"><br> 
@@ -27,15 +25,15 @@
     <input type="text" id="invimage" name="inv_image" value="/images/vehicles/no-image.png"><br>
     <label for="inv_thumbnail">Thumbnail Path:</label><br>
     <input type="text" id="invthumbnail" name="inv_thumbnail" value="/images/vehicles/no-image.png"><br>
-    <label for="inv_make">Make:</label><br>
-    <input type="text" id="invmake" name="inv_make" required pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9]).{3,}$" title="Decimal or integer"><br> 
-    <label for="inv_make">Make:</label><br>
-    <input type="text" id="invmake" name="inv_make" required pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9]).{4,}$" title="4 Digits year"><br> 
-    <label for="inv_make">Make:</label><br>
-    <input type="text" id="invmake" name="inv_make" required pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9]).{3,}$" title="Digits only"><br> 
+    <label for="inv_price">Price:</label><br>
+    <input type="text" id="invprice" name="inv_price" required pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9]).{3,}$" title="Decimal or integer"><br> 
+    <label for="inv_year">Year:</label><br>
+    <input type="text" id="invyear" name="inv_year" required pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9]).{4,}$" title="4 Digits year"><br> 
+    <label for="inv_miles">Miles:</label><br>
+    <input type="text" id="invmiles" name="inv_miles" required pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9]).{3,}$" title="Digits only"><br> 
     <label for="inv_color">Color:</label><br>
     <input type="text" id="invcolor" name="inv_color" required pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9]).{3,}$" title="Min of 3 characters"><br> 
 
-    <button class="addvehicleBtn"type="submit">Add Vehicle</button>
+    <button class="addVehicleBtn"type="submit">Add Vehicle</button>
 </fieldset>
 </form>
