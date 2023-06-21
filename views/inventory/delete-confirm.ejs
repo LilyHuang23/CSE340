@@ -1,0 +1,25 @@
+<% if (title) { %>
+    <h1><%= title %></h1>
+    <% } else {
+        res.redirect('/')
+    } %>
+        <!-- # disables this code. 
+        you'll replace with mark (—) -->
+    <%- messages() %>
+    <!-- <%- options %> -->
+<form id="deleteForm" action="./inv/delete" method="post">
+    <p>Confirm Deletion - The delete is permanent.</p>
+<fieldset>
+    <!-- Ensure that the "inv_id" hidden input remains in the form. -->
+    <label for="inv_make">Make:</label><br>
+    <label for="inv_model">Model:</label><br>
+    <label for="inv_price">Price:</label><br>
+    <label for="inv_year">Year:</label><br>
+
+    <button class="addVehicleBtn"type="submit" disabled>Delete Vehicle</button>
+    <input type="hidden" name="inv_id"
+<% if(locals.inv_id) { %> value="<%= locals.inv_id %>"
+<% } %>>
+</fieldset>
+</form>
+<script src="./js/inv-update"></script>

@@ -16,8 +16,9 @@ const utilities = require("./utilities/")
 const session = require("express-session")
 const pool = require('./database/')
 const bodyParser = require("body-parser")
+// activity 5
+const cookieParser = require("cookie-parser")
 
-// const account = require(".//")
 /* ***********************
  * Middleware
  * ************************/
@@ -41,6 +42,10 @@ app.use(function(req, res, next){
 // for parsing application/x-www-form-urlencoded
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
+// activity 5
+app.use(cookieParser())
+app.use(utilities.checkJWTToken)
+
 
 /* ***********************
  * View Engine and Templates

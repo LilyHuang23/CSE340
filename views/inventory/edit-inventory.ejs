@@ -1,0 +1,41 @@
+<% if (title) { %>
+    <h1><%= title %></h1>
+    <% } else {
+        res.redirect('/')
+    } %>
+        <!-- # disables this code. 
+        you'll replace with mark (—) -->
+    <%- messages() %>
+    <!-- <%- options %> -->
+<form id="updateForm" action="./inv/update" method="post">
+    <p>All field are required</p>
+<fieldset>
+    <label for="classification_name">Choose a car:</label>
+        <!-- <%- options %> -->
+    <label for="inv_make">Make:</label><br>
+    <input type="text" id="invmake" name="inv_make" required pattern="{3,}$" title="Min of 3 characters"><br> 
+    <label for="inv_model">Model:</label><br>
+    <input type="text" id="invmodel" name="inv_model" required pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9]).{3,}$" title="Min of 3 characters"><br>
+    <label for="inv_description">Description:</label><br>
+    <textarea id="invdescription" name="inv_description" rows="15" cols="30"
+    pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9]).{3,}$" required ></textarea><br>
+    <label for="inv_image">Image Path:</label><br>
+    <input type="text" id="invimage" name="inv_image" value="/images/vehicles/no-image.png"><br>
+    <label for="inv_thumbnail">Thumbnail Path:</label><br>
+    <input type="text" id="invthumbnail" name="inv_thumbnail" value="/images/vehicles/no-image.png"><br>
+    <label for="inv_price">Price:</label><br>
+    <input type="text" id="invprice" name="inv_price" required pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9]).{3,}$" title="Decimal or integer"><br> 
+    <label for="inv_year">Year:</label><br>
+    <input type="text" id="invyear" name="inv_year" required pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9]).{4,}$" title="4 Digits year"><br> 
+    <label for="inv_miles">Miles:</label><br>
+    <input type="text" id="invmiles" name="inv_miles" required pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9]).{3,}$" title="Digits only"><br> 
+    <label for="inv_color">Color:</label><br>
+    <input type="text" id="invcolor" name="inv_color" required pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9]).{3,}$" title="Min of 3 characters"><br> 
+
+    <button class="addVehicleBtn"type="submit" disabled>Update Vehicle</button>
+    <input type="hidden" name="inv_id">
+<% if(locals.inv_id) { %> value="<%= locals.inv_id %>"
+<% } %>>
+</fieldset>
+</form>
+<script src="./js/inv-update"></script>

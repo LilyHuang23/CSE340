@@ -36,19 +36,13 @@ validate.vehicleRules = () => {
     body("inv_make")
       .trim()
       .escape(0)
-      .isLength({ min: 3 })
-      .withMessage("Make should be at least three characters."),
-
-    body("inv_make")
-      .trim()
-      .escape(0)
-      .isLength({ min: 3 })
-      .withMessage("Make should be at least three characters."),
+      .isLength({ min: 2 })
+      .withMessage("Make should be at least three characters."), 
 
     body("inv_model")
       .trim()
       .escape(0)
-      .isLength({ min: 3 })
+      .isLength({ min: 2 })
       .withMessage("Model should be at least three characters."),
       
     body("inv_description")
@@ -63,6 +57,8 @@ validate.vehicleRules = () => {
         const filePathRegex = '/^\/?([\w\d\s-]+\/)*(\w\d\s.-]+\.[\w]+$/';
         if (!filePathRegex.test(inv_image)) {
           throw new Error("Please enter a valid image path.")
+        } else {
+          return true
         }
       }),
       
@@ -71,6 +67,8 @@ validate.vehicleRules = () => {
         const filePathRegex = '/^\/?([\w\d\s-]+\/)*(\w\d\s.-]+\.[\w]+$/';
         if (!filePathRegex.test(inv_thumbnail)) {
           throw new Error("Please enter a valid thumbnail path.")
+        } else {
+          return true
         }
       }),
     body("inv_price")
@@ -80,11 +78,10 @@ validate.vehicleRules = () => {
         }
       }),
     body("inv_year")
-      .custom(async (inv_year) => {
-        if (!'/^\d{4}$/'.test(inv_year)) {
-          throw new Error("Year should be 4 digit.")
-        }
-      }),
+      .isNumeric()
+      .isLength({ min: 4, max: 4 })
+      .withMessage("Miles should be digit."),
+  
     body("inv_miles")
       .isNumeric()
       .withMessage("Miles should be 4 digit."),
@@ -107,9 +104,9 @@ validate.checkClassificationData = async (req, res, next) => {
     errors = validationResult(req)
     if (!errors.isEmpty()) {
       let nav = await utilities.getNav()
-      res.render("/inv/inventory/addClassification", {
+      res.render("/inventory/addClassification", {
         errors,
-        title: "Management",
+        title: "Add a New Classification",
         nav,
         classification_name,
       })
@@ -130,17 +127,59 @@ validate.checkVehicleData = async (req, res, next) => {
     inv_image,
     inv_thumbnail,
     inv_price,
+    inv_miles,
+    inv_year,
+    inv_color,
+  } = req.body;
+  let options = await utilities.getClassificationOptions(classification_id)
+  let errors = []
+    errors = validationResult(req)
+    if (!errors.isEmpty()) {
+      let nav = await utilities.getNav()
+      res.render("inventory/addInventory", {
+        errors,
+        title: "Add a new Vehicle",
+        options,
+        nav,
+        classification_id,
+        inv_make,
+        inv_model,
+        inv_description,
+        inv_image,
+        inv_thumbnail,
+        inv_price,
+        inv_miles,
+        inv_year,
+        inv_color,
+      })
+      return
+    }
+    next()
+}/*  **********************************
+ *  Check data and return errors or continue the vehicle processing
+ * ********************************* */   
+validate.checkUpdateData = async (req, res, next) => {
+  const {
+    classification_id,
+    inv_id,
+    inv_make,
+    inv_model,
+    inv_description,
+    inv_image,
+    inv_thumbnail,
+    inv_price,
     inv_year,
   } = req.body;
   let errors = []
     errors = validationResult(req)
     if (!errors.isEmpty()) {
       let nav = await utilities.getNav()
-      res.render("/inv/inventory/addInventory", {
+      res.render("/inventory/edit-inventory", {
         errors,
-        title: "Management",
+        title: "Edit " + itemName,
         nav,
         classification_id,
+        inv_id,
         inv_make,
         inv_model,
         inv_description,
