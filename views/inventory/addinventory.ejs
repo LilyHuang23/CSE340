@@ -20,9 +20,9 @@
     <textarea id="invdescription" name="inv_description" rows="15" cols="30" value = "<%= locals.inv_description %>"
     maxlength="150" value = "<%= locals.inv_description %>"required ></textarea>
     <label for="invimage">Image Path:</label><br>
-    <input type="text" id="invimage" name="inv_image" value="/images/vehicles/no-image.png">
+    <input type="text" id="invimage" name="inv_image" value="/images/vehicles/no-image.png" class="no-image">
     <label for="invthumbnail">Thumbnail Path:</label><br>
-    <input type="text" id="invthumbnail" name="inv_thumbnail" value="/images/vehicles/no-image.png">
+    <input type="text" id="invthumbnail" name="inv_thumbnail" value="/images/vehicles/no-image-tn.png">
     <label for="invprice">Price:</label><br>
     <input type="text" id="invprice" name="inv_price" required pattern="^\d+\.?\d*$" value = "<%= locals.inv_price %>" title="Decimal or integer"> 
     <label for="invyear">Year:</label><br>

@@ -92,8 +92,8 @@ nav ul li a{
   align-items: center;
 }
  .img-display{
-  width: 250px;
-  height:180px;
+  width: 300px;
+  height: 300px;
   display: inline-flex;
   justify-content: center;
   align-items: center;
@@ -217,15 +217,16 @@ textarea{
 #pswdBtn, .addVehicleBtn, .addClassificationBtn, input[type=submit]:hover {
   background-color: #654cf1;
 }
+
 /* form register */
 /* Styling valid/invalid inputs using CSS */
 input:required:invalid, input:focus:invalid {
-  background-image: url(/images/invalid.png);
+  background-color: rgb(245, 71, 71);
   background-position: right top;
   background-repeat: no-repeat;
  }
   input:required:valid {
-  background-image: url(/images/valid.png);
+  background-color: rgb(162, 238, 162);
   background-position: right top;
   background-repeat: no-repeat;
   }
