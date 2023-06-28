@@ -14,7 +14,7 @@ validate.classificationRules = () => {
       .isAlpha()
       .withMessage("Please provide a valid classification name.") // on error this message is sent.
       .custom(async (classification_name) => {
-        const classificationExist = await inventoryModel.checkExistingClassification
+        const classificationExist = await inventoryModel.checkExistingClassification(classification_name)
         if (classificationExist) {
             throw new Error("This classification already exists")
         }
@@ -30,53 +30,51 @@ validate.vehicleRules = () => {
   return [
     body("classification_id")
       .notEmpty()
-      .escape(0)
       .withMessage("Classification name is required."),
     
     body("inv_make")
       .trim()
-      .escape(0)
       .isLength({ min: 2 })
       .withMessage("Make should be at least three characters."), 
 
     body("inv_model")
       .trim()
-      .escape(0)
       .isLength({ min: 2 })
       .withMessage("Model should be at least three characters."),
       
     body("inv_description")
       .notEmpty()
       .trim()
-      .escape(0)
       .isLength({ min: 3 })
       .withMessage("Description is required."),
     
     body("inv_image")
-      .custom(async (inv_image) => {
-        const filePathRegex = '/^\/?([\w\d\s-]+\/)*(\w\d\s.-]+\.[\w]+$/';
-        if (!filePathRegex.test(inv_image)) {
-          throw new Error("Please enter a valid image path.")
-        } else {
-          return true
-        }
-      }),
+      .notEmpty()
+      .withMessage("Image is required."),
+
+      // .custom(async (inv_image) => {
+      //   // const filePathRegex = '/^\/?([\w\d\s-]+\/)*(\w\d\s.-]+\.[\w]+$/';
+      //   if (inv_image!="/images/vehicles/no-image.png") {
+      //     throw new Error("Please enter a valid image path.")
+      //   } else {
+      //     return true
+      //   }
+      // }),
       
     body("inv_thumbnail")
-      .custom(async (inv_thumbnail) => {
-        const filePathRegex = '/^\/?([\w\d\s-]+\/)*(\w\d\s.-]+\.[\w]+$/';
-        if (!filePathRegex.test(inv_thumbnail)) {
-          throw new Error("Please enter a valid thumbnail path.")
-        } else {
-          return true
-        }
-      }),
+      .notEmpty()
+      .withMessage("Image is required."),
+    
     body("inv_price")
-      .custom(async (inv_price) => {
-        if (!'/^\d+(\.\d{1,2})?$/'.test(inv_price)) {
-          throw new Error("Please enter a valid price format.")
-        }
-      }),
+      .isNumeric()
+      .isLength({ min: 3, max: 7 })
+      .withMessage("Price should be digit."),
+
+      // .custom(async (inv_price) => {
+      //   if (!'/^\d+(\.\d{1,2})?$/'.test(inv_price)) {
+      //     throw new Error("Please enter a valid price format.")
+      //   }
+      // }),
     body("inv_year")
       .isNumeric()
       .isLength({ min: 4, max: 4 })
@@ -104,7 +102,7 @@ validate.checkClassificationData = async (req, res, next) => {
     errors = validationResult(req)
     if (!errors.isEmpty()) {
       let nav = await utilities.getNav()
-      res.render("/inventory/addClassification", {
+      res.render("../views/inventory/addClassification", {
         errors,
         title: "Add a New Classification",
         nav,
@@ -136,7 +134,7 @@ validate.checkVehicleData = async (req, res, next) => {
     errors = validationResult(req)
     if (!errors.isEmpty()) {
       let nav = await utilities.getNav()
-      res.render("inventory/addInventory", {
+      res.render("../views/inventory/addInventory", {
         errors,
         title: "Add a new Vehicle",
         options,
@@ -174,7 +172,7 @@ validate.checkUpdateData = async (req, res, next) => {
     errors = validationResult(req)
     if (!errors.isEmpty()) {
       let nav = await utilities.getNav()
-      res.render("/inventory/edit-inventory", {
+      res.render("../view/inventory/edit-inventory", {
         errors,
         title: "Edit " + itemName,
         nav,
