@@ -11,7 +11,7 @@ router.get("/login", utilities.handleErrors(accountController.buildLogin));
 router.get("/registration", utilities.handleErrors(accountController.buildRegister));
 // activity 5 Account Management View
 router.get("/",
-  // utilities.checkLogin,
+  utilities.checkLogin,
   utilities.handleErrors(accountController.buildManagement))
 // submit register form
 // Process the registration data

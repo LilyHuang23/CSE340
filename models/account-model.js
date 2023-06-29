@@ -25,7 +25,7 @@ async function checkExistingEmail(account_email){
 }
   
 /* *****************************
-* Return account data using email address
+* Return account data using email address  - activity 5
 * ***************************** */
 async function getAccountByEmail (account_email) {
   try {

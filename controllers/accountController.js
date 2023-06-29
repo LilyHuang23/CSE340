@@ -94,6 +94,7 @@ async function accountLogin(req, res) {
   const { account_email, account_password } = req.body
   const accountData = await accountModel.getAccountByEmail(account_email)
   try {
+    // hash password
     if (await bcrypt.compare(account_password, accountData.account_password)) {
     delete accountData.account_password
     const accessToken = jwt.sign(accountData, process.env.ACCESS_TOKEN_SECRET, { expiresIn: 3600 * 1000 })
@@ -116,6 +117,7 @@ async function accountLogin(req, res) {
   else {
     req.flash(
       "notice",
+      `Welcome `
       `Congratulations, you\'re logged in.`
     )
     res.status(201).render("account/management", {

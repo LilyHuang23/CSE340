@@ -29,7 +29,7 @@ Util.getNav = async function (req, res, next) {
 /* ************************
  * Classification options list in the add new vehicle form
  ************************** */
-Util.getClassificationOptions = async function (optionSelected) {
+Util.buildClassificationLists = async function (optionSelected=null) {
   let data = await invModel.getClassifications()
   let options = '<select id="classificationId" name="classification_id" required>'
   options += "<option value = ''>Choose a Classification</option>"
@@ -149,5 +149,15 @@ Util.checkLogin = (req, res, next) => {
     return res.redirect("/account/login")
   }
  }
-
+/* ****************************************
+ *  Check Login - activity 5
+ * ************************************ */
+Util.checkAccountType = (req, res, next) => {
+  if (res.locals.loggedin) {
+    next()
+  } else {
+    req.flash("notice", "Please log in.")
+    return res.redirect("/account/login")
+  }
+ }
 module.exports = Util

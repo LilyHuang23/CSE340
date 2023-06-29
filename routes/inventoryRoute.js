@@ -12,8 +12,10 @@ router.get("/addClassification", utilities.handleErrors(invController.buildNewCl
 router.get("/addInventory", utilities.handleErrors(invController.buildNewVehicle));
 // Route to build inventory detail
 router.get("/detail/:inv_id", utilities.handleErrors(invController.detailByInventoryId));
-// Edit the Inventory Routes - activity 5
-router.get("/inv/getInventory/:classification_id", utilities.handleErrors(invController.getInventoryJSON));
+// AJAX - activity 5
+router.get("/getInventory/:classification_id",
+    // utilities.checkAccountType,
+    utilities.handleErrors(invController.getInventoryJSON));
 // Update the Inventory Item Routes - activity 5
 // router.get("/inv/edit/:inventory_id", utilities.handleErrors(invController.editInventoryView, invController.newInventoryRules(), invController.checkUpdateData));
 // Data Checking Middleware

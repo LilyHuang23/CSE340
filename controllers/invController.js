@@ -1,5 +1,6 @@
 const invModel = require("../models/inventoryModel")
 const utilities = require("../utilities/")
+const { classificationRules } = require("../utilities/inventoryValidation")
 
 const invCont = {}
 
@@ -8,10 +9,13 @@ const invCont = {}
  * ************************** */
 invCont.buildVehicleManagement = async function (req, res, next) {
   let nav = await utilities.getNav()
+  
+  // const classificationSelect = await utilities.buildClassificationList(classification_id)
   res.render("./inventory/management", {
     title: "Vehicle Management",
     nav,
-    errors: null
+    errors: null,
+    // classificationSelect,
   })
 }
 /* ***************************

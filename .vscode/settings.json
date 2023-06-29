@@ -4,6 +4,7 @@
     "Delorean",
     "firstname",
     "lastname",
+    "loggedin",
     "pswd",
     "resave"
   ]
