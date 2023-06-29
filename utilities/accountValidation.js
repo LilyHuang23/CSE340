@@ -85,7 +85,13 @@ validate.loginRules = () => {
      // password is required and must be strong password
      body("account_password")
        .trim()
-       .isString()
+       .isStrongPassword({
+        minLength: 12,
+        minUppercase: 1,
+        minUppercase: 1,
+        minNumbers: 1,
+        minSymbols: 1,
+      })
        .withMessage("Password does not meet requirements."),
    ]
 }
@@ -93,7 +99,7 @@ validate.loginRules = () => {
 * Check data and return errors or continue to Login
 * ***************************** */
 validate.checkLoginData = async (req, res, next) => {
-   const { account_email } = req.body
+   const { account_email, account_password  } = req.body
    let errors = []
    errors = validationResult(req)
    if (!errors.isEmpty()) {
@@ -103,6 +109,7 @@ validate.checkLoginData = async (req, res, next) => {
        title: "Login",
        nav,
        account_email,
+       account_password,
      })
      return
    }

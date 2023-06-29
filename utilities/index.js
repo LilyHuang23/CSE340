@@ -29,7 +29,7 @@ Util.getNav = async function (req, res, next) {
 /* ************************
  * Classification options list in the add new vehicle form
  ************************** */
-Util.buildClassificationLists = async function (optionSelected=null) {
+Util.getClassificationOptions = async function (optionSelected=null) {
   let data = await invModel.getClassifications()
   let options = '<select id="classificationId" name="classification_id" required>'
   options += "<option value = ''>Choose a Classification</option>"

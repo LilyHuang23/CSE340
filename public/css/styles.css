@@ -218,14 +218,14 @@ textarea{
   background-color: #654cf1;
 }
 
-/* form register */
+/* form */
 /* Styling valid/invalid inputs using CSS */
-input:required:invalid, input:focus:invalid {
-  background-color: rgb(245, 71, 71);
+input:required:invalid, input:focus:invalid, textarea:required:invalid, select:required:invalid {
+  background-color: rgb(249, 142, 142);
   background-position: right top;
   background-repeat: no-repeat;
  }
-  input:required:valid {
+  input:required:valid, textarea:required:valid, select:required:valid {
   background-color: rgb(162, 238, 162);
   background-position: right top;
   background-repeat: no-repeat;
@@ -327,6 +327,6 @@ input:required:invalid, input:focus:invalid {
     width: 60%;
   }
   #registrationForm{
-    height: 700px;
+    height: 800px;
   }
 }

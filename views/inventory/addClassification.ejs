@@ -3,6 +3,14 @@
 <% } else {
     res.redirect('/')
 } %>
+
+<% if (errors) { %>
+    <ul class="notice">
+   <% errors.array().forEach(error => { %>
+     <li><%= error.msg %></li>
+  <%  }) %>
+   </ul>
+  <% } %>
     <!-- # disables this code. 
     you'll replace with mark (—) -->
 <%- messages() %>
@@ -10,9 +18,9 @@
     <p>All field are required</p>
 <fieldset>
     <p>Classification Name</p>
-    <label for="classification_id">NAME MUST BE ALPHABETIC CHARACTERS ONLY</label><br>
+    <label for="classificationId">NAME MUST BE ALPHABETIC CHARACTERS ONLY</label><br>
     <input type="text" id="classificationId" name="classification_name" required pattern="[a-zA-Z]+"><br>
    
-     <button class="addClassificationBtn"type="submit">Add Classification</button>
+     <button class="addClassificationBtn" type="submit">Add Classification</button>
 </fieldset>
 </form>

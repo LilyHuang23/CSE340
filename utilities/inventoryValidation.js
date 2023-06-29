@@ -51,15 +51,6 @@ validate.vehicleRules = () => {
     body("inv_image")
       .notEmpty()
       .withMessage("Image is required."),
-
-      // .custom(async (inv_image) => {
-      //   // const filePathRegex = '/^\/?([\w\d\s-]+\/)*(\w\d\s.-]+\.[\w]+$/';
-      //   if (inv_image!="/images/vehicles/no-image.png") {
-      //     throw new Error("Please enter a valid image path.")
-      //   } else {
-      //     return true
-      //   }
-      // }),
       
     body("inv_thumbnail")
       .notEmpty()
@@ -70,15 +61,10 @@ validate.vehicleRules = () => {
       .isLength({ min: 3, max: 7 })
       .withMessage("Price should be digit."),
 
-      // .custom(async (inv_price) => {
-      //   if (!'/^\d+(\.\d{1,2})?$/'.test(inv_price)) {
-      //     throw new Error("Please enter a valid price format.")
-      //   }
-      // }),
     body("inv_year")
       .isNumeric()
       .isLength({ min: 4, max: 4 })
-      .withMessage("Miles should be digit."),
+      .withMessage("Year should be 4 digit."),
   
     body("inv_miles")
       .isNumeric()
