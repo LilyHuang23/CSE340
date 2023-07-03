@@ -9,7 +9,7 @@ router.get("/type/:classificationId", utilities.handleErrors(invController.build
 // Route to build add new classification
 router.get("/addClassification", utilities.handleErrors(invController.buildNewClassification));
 // Route to build add new vehicle
-router.get("/addInventory", utilities.handleErrors(invController.buildNewVehicle));
+router.get("/addinventory", utilities.handleErrors(invController.buildNewVehicle));
 // Route to build inventory detail
 router.get("/detail/:inv_id", utilities.handleErrors(invController.detailByInventoryId));
 // AJAX - activity 5
@@ -31,7 +31,7 @@ router.post("/addClassification",
     validation.checkClassificationData,
     utilities.handleErrors(invController.addClassification));
 // post new vehicle
-router.post("/addInventory",
+router.post("/addinventory",
     validation.vehicleRules(),
     validation.checkVehicleData,
     utilities.handleErrors(invController.addVehicle));

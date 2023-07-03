@@ -136,7 +136,7 @@ invCont.addVehicle = async function (req, res, next) {
     })
   } else {
     req.flash("notice", "Sorry, we couldn't add this vehicle.")
-    res.status(501).render("./inventory/addInventory", {
+    res.status(501).render("./inventory/addinventory", {
       title: "Add a New Vehicle",
       nav,
       errors: null,
