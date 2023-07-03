@@ -5,7 +5,7 @@ const { classificationRules } = require("../utilities/inventoryValidation")
 const invCont = {}
 
 /* ***************************
- *  Build vehicle management
+ *  Build vehicle management assignment 4
  * ************************** */
 invCont.buildVehicleManagement = async function (req, res, next) {
   let nav = await utilities.getNav()
