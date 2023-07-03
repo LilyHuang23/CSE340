@@ -120,7 +120,7 @@ validate.checkVehicleData = async (req, res, next) => {
     errors = validationResult(req)
     if (!errors.isEmpty()) {
       let nav = await utilities.getNav()
-      res.render("../views/inventory/addInventory", {
+      res.render("../views/inventory/addinventory", {
         errors,
         title: "Add a new Vehicle",
         options,
