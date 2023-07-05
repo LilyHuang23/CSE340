@@ -153,11 +153,18 @@ Util.checkLogin = (req, res, next) => {
  *  Check Login - activity 5
  * ************************************ */
 Util.checkAccountType = (req, res, next) => {
-  if (res.locals.loggedin) {
-    next()
+  if (res.locals.loggedin != 1){
+    req.flash("error", "You do not have permission to access this page.")
+    res.status(403).redirect("/account/login")
+  }
+  // receive the account type from the payload
+  const account_type = res.locals.accountData.account_type
+  // verify if the account is an employee or an admin
+  if (account_type === 'Employee' || account_type === 'Admin') {
+    next() // move to the next thing
   } else {
-    req.flash("notice", "Please log in.")
-    return res.redirect("/account/login")
+    req.flash("error", "You do not have permission to access this page.")
+    res.status(403).redirect("/account/login")
   }
  }
 module.exports = Util

@@ -203,7 +203,7 @@ textarea{
   width: 80%;
   padding: 0.5rem 0.75rem;
 }
-#pswdBtn, .addVehicleBtn, .addClassificationBtn, input[type=submit] {
+#pswdBtn, .addVehicleBtn, .addClassificationBtn, .deleteBtn, .updateBtn, input[type=submit] {
   width: 80%;
   background-color: #4a30d9;
   color: white;
@@ -214,7 +214,7 @@ textarea{
   cursor: pointer;
 }
 
-#pswdBtn, .addVehicleBtn, .addClassificationBtn, input[type=submit]:hover {
+#pswdBtn, .addVehicleBtn, .deleteBtn, .updateBtn, .addClassificationBtn, input[type=submit]:hover {
   background-color: #654cf1;
 }
 

@@ -3,14 +3,24 @@
 <% } else {
     res.redirect('/')
 } %>
+
+<% if (errors) { %>
+    <ul class="notice">
+   <% errors.array().forEach(error => { %>
+     <li><%= error.msg %></li>
+  <%  }) %>
+   </ul>
+  <% } %>
     <!-- # disables this code. 
     you'll replace with mark (—) -->
 <%- messages() %>
 <a href="/inv/addClassification">add new classification</a>
 <a href="/inv/addInventory">add new inventory</a>
 <h2>Manage Inventory</h2>
-<p>Select a classification from the list to see the items belonging to the classification</p>
+
 <!-- add an EJS code block to display the classification list.add an EJS code block to display the classification list. -->
+<label for="classificationId">Select a classification from the list to see the items belonging to the classification</label><br>
+<%- options %>
 <table id="inventoryDisplay"></table>
 <noscript>JavaScript must be enabled to use this page.</noscript>
 <script src="../../js/inventory.js"></script>

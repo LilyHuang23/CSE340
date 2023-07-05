@@ -10,3 +10,8 @@ pswdBtn.addEventListener("click", function () {
         pswdBtn.innerHTML = "Show Password";
     }
 });
+
+const changeText = document.querySelector("#changeText");
+changeText.addEventListener("click", function() {
+    changeText.textContent = "Logout";
+  });

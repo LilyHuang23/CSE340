@@ -115,6 +115,102 @@ validate.checkLoginData = async (req, res, next) => {
    }
    next()
  }
-  
+    /* ******************************
+ * Update Information Validation Rules
+ * ***************************** */
+validate.updateInfoRules = () => {
+  return [
+    body("account_firstname")
+    .trim()
+    .isLength({ min: 1 })
+    ,
+
+    body("account_lastname")
+    .trim()
+    .isLength({ min: 2 }),
+
+    body("account_email")
+    .trim()
+    .isEmail()
+    .normalizeEmail() // refer to validator.js docs
+    .withMessage("A valid email is required.")
+    .custom(async (account_email, {req}) => {
+      const accountId = req.body.account_id; 
+      const accountData = await accountModel.getAccountByAccountId(accountId)
+      const emailExists = await accountModel.checkExistingEmail(account_email)
+      if (emailExists && account_email !== accountData.account_email) {
+        throw new Error("Email exists. Please update email")
+      }
+    }),
+  ]
+}
+
+
+  /* *********************************************
+ * Update Information Validation Rules for password
+ * *********************************************/
+validate.updatePasswordRules = () => {
+  return [
+    body("account_password")
+    .trim()
+    .isStrongPassword({
+      minLength: 12,
+      minLowercase: 1,
+      minUppercase: 1,
+      minNumbers: 1,
+      minSymbols: 1,
+      })
+    .withMessage("Password does not meet requirements."),
+  ]
+}
+
+/*********************************************************************************
+ * Check password and put stickiness back if there is no input for password
+ * *******************************************************************************/
+validate.checkPassword = async (req, res, next) => {
+  const {account_password, account_firstname, account_lastname, account_email, account_id} = req.body
+  const accountIds = parseInt(req.body.account_id);
+  const accountData = await accountModel.getAccountByAccountId(accountIds)
+  let errors = []
+  errors = validationResult(req)
+  if (!errors.isEmpty()){
+    let nav = await utilities.getNav()
+    res.render("./account/updateView", {
+      errors,
+      title: "Edit Account",
+      nav,
+      account_id: accountData.accountId,
+      account_firstname: accountData.account_firstname,
+      account_lastname: accountData.account_lastname,
+      account_email: accountData.account_email,
+    })
+    return
+  }
+  next()
+}
+
+
+  /**************************************************************************
+ * Check update information and return errors or continue management view
+ ****************************************************************************/
+validate.checkUpdateInfo = async (req, res, next) => {
+  const {account_firstname, account_lastname, account_email} = req.body
+  let errors = []
+  errors = validationResult(req)
+  if (!errors.isEmpty()) {
+    let nav = await utilities.getNav()
+    res.render("account/updateView", {
+      errors,
+      title: "Edit Account",
+      nav,
+      account_firstname,
+      account_lastname,
+      account_email,
+    })
+    return
+  }
+  next()
+}
+
   module.exports = validate
   

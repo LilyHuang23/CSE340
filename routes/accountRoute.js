@@ -26,12 +26,28 @@ router.post(
   "/login",
   regValidate.loginRules(),
   regValidate.checkLoginData,
-    // activity 5
-    utilities.handleErrors(accountController.accountLogin),
-    // (req, res) => {
-    //   res.status(200).send('login process')
-    // }
-    
-    
-  )
+  utilities.handleErrors(accountController.accountLogin),
+  
+)
+// Route to build account view
+router.get("/", utilities.checkLogin,
+  utilities.handleErrors(accountController.buildManagement))
+
+// Link for the update information view
+router.get("/updateView/:account_id",
+utilities.handleErrors(accountController.accountUpdateView))
+
+// Process the update information attempt
+router.post("/updateView",
+regValidate.updateInfoRules(),
+regValidate.checkUpdateInfo,
+utilities.handleErrors(accountController.updateInfo))
+
+// Process the update password attempt
+router.post("/updateViewPassword", 
+regValidate.updatePasswordRules(),
+regValidate.checkPassword,
+utilities.handleErrors(accountController.updatePassword))
+
+
 module.exports = router;

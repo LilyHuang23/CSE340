@@ -19,26 +19,25 @@
 <fieldset>
     <label for="classificationId">Choose a car:</label><br>
         <%- options %>
-
-    <label for="invmake">Make:</label><br>
-    <input type="text" id="invmake" name="inv_make" required pattern="[a-zA-Z]+" value = "<%= locals.inv_make %>" title="Min of 3 characters">
-    <label for="invmodel">Model:</label><br>
-    <input type="text" id="invmodel" name="inv_model" required pattern="[a-zA-Z]+" value = "<%= locals.inv_model %>" title="Min of 3 characters">
-    <label for="invdescription">Description:</label><br>
-    <textarea id="invdescription" name="inv_description" rows="15" cols="30" maxlength="150" required ></textarea>
-    <label for="invimage">Image Path:</label><br>
-    <input type="text" id="invimage" name="inv_image" value="/images/vehicles/no-image.png" class="no-image">
-    <label for="invthumbnail">Thumbnail Path:</label><br>
-    <input type="text" id="invthumbnail" name="inv_thumbnail" value="/images/vehicles/no-image-tn.png">
-    <label for="invprice">Price:</label><br>
-    <input type="text" id="invprice" name="inv_price" required pattern="^\d+\.?\d*$" value = "<%= locals.inv_price %>" title="Decimal or integer"> 
-    <label for="invyear">Year:</label><br>
-    <input type="text" id="invyear" name="inv_year" required pattern="[0-9]{4}$" value = "<%= locals.inv_year %>" title="4 Digits year">
-    <label for="invmiles">Miles:</label><br>
-    <input type="text" id="invmiles" name="inv_miles" required pattern="[0-9]{1,6}$" value = "<%= locals.inv_miles %>" title="Digits only">
-    <label for="invcolor">Color:</label><br>
-    <input type="text" id="invcolor" name="inv_color" required pattern="[a-zA-Z]+" value = "<%= locals.inv_color %>" title="Min of 3 characters"><br> 
-
+        <label for="invmake">Make:</label><br>
+        <input type="text" id="invmake" name="inv_make" required pattern="[a-zA-Z]+" value = "<%= locals.inv_make %>" title="Min of 3 characters">
+        <label for="invmodel">Model:</label><br>
+        <input type="text" id="invmodel" name="inv_model" required pattern="[a-zA-Z]+" value = "<%= locals.inv_model %>" title="Min of 3 characters">
+        <label for="invdescription">Description:</label><br>
+        <textarea id="invdescription" name="inv_description" rows="15" cols="30" maxlength="150" required > <%= locals.inv_description %> </textarea>
+        <label for="invimage">Image Path:</label><br>
+        <input type="text" id="invimage" name="inv_image" value="/images/vehicles/no-image.png" class="no-image">
+        <label for="invthumbnail">Thumbnail Path:</label><br>
+        <input type="text" id="invthumbnail" name="inv_thumbnail" value="/images/vehicles/no-image-tn.png">
+        <label for="invprice">Price:</label><br>
+        <input type="text" id="invprice" name="inv_price" required pattern="^\d+\.?\d*$" value = "<%= locals.inv_price %>" title="Decimal or integer"> 
+        <label for="invyear">Year:</label><br>
+        <input type="text" id="invyear" name="inv_year" required pattern="[0-9]{4}$" value = "<%= locals.inv_year %>" title="4 Digits year">
+        <label for="invmiles">Miles:</label><br>
+        <input type="text" id="invmiles" name="inv_miles" required pattern="[0-9]{1,6}$" value = "<%= locals.inv_miles %>" title="Digits only">
+        <label for="invcolor">Color:</label><br>
+        <input type="text" id="invcolor" name="inv_color" required pattern="[a-zA-Z]+" value = "<%= locals.inv_color %>" title="Min of 3 characters"><br> 
+    
     <button class="addVehicleBtn" type="submit">Add Vehicle</button>
     <input type="hidden" name="inv_id"
 <% if(locals.inv_id) { %> value="<%= locals.inv_id %>"

@@ -51,6 +51,18 @@ async function addNewClassification(classification_name){
     return error.message
   }
 }
+/* **********************
+*   Check for existing classification
+* ********************* */
+async function checkExistingClassification(classification_name){
+  try {
+    const sql = "SELECT * FROM classification WHERE classification_name = $1"
+    const classification = await pool.query(sql, [classification_name])
+    return classification.rowCount
+  } catch (error) {
+    return error.message
+  }
+}
 /* *****************************
 *   Add new inventory
 * *************************** */
@@ -65,6 +77,20 @@ async function addVehicle(classification_id, inv_make, inv_model, inv_descriptio
         inv_color])
   } catch (error) {
     return error.message
+  }
+}
+/* ***************************
+ *  Update Inventory Data View - activity 5
+ * ************************** */
+async function getInventoryById(inv_id) {
+  try {
+    const data = await pool.query(
+      "SELECT * FROM public.inventory WHERE inv_id = $1",
+      [inv_id]
+    )
+    return data.rows
+  } catch (error) {
+    console.error("Get Inventory by id error " + error)
   }
 }
 /* ***************************
@@ -104,32 +130,31 @@ async function updateInventory(
     console.error("model error: " + error)
   }
 }
-/* **********************
-*   Check for existing email
-* ********************* */
-async function checkExistingEmail(account_email){
+/* ***************************
+ *  Delete Inventory Data - activity 5
+ * ************************** */
+async function deleteInventory(inv_id) {
   try {
-    const sql = "SELECT * FROM account WHERE account_email = $1"
-    const email = await pool.query(sql, [account_email])
-    return email.rowCount
+    const sql =
+      'DELETE FROM inventory WHERE inv_id = $1';
+    const data = await pool.query(sql, [
+      inv_id
+    ])
+    return data.rows[0]
   } catch (error) {
-    return error.message
+    new Error("Delete Inventory error")
   }
 }
-/* **********************
-*   Check for existing classification
-* ********************* */
-async function checkExistingClassification(classification_name){
-  try {
-    const sql = "SELECT * FROM classification WHERE classification_name = $1"
-    const classification = await pool.query(sql, [classification_name])
-    return classification.rowCount
-  } catch (error) {
-    return error.message
-  }
-}
+
+
 module.exports = {
-  getClassifications, getInventoryByClassificationId,
-  getDetailByInventoryId, addNewClassification, addVehicle,
-  checkExistingEmail, checkExistingClassification, updateInventory
+  getClassifications,
+  getInventoryByClassificationId,
+  getDetailByInventoryId,
+  addNewClassification,
+  addVehicle,
+  checkExistingClassification,
+  updateInventory,
+  deleteInventory,
+  getInventoryById
 };
