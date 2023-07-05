@@ -5,7 +5,7 @@ const { classificationRules } = require("../utilities/inventoryValidation")
 const invCont = {}
 
 /* ***************************
- *  Build vehicle management
+ *  Build vehicle management assignment 4
  * ************************** */
 invCont.buildVehicleManagement = async function (req, res, next) {
   let nav = await utilities.getNav()
@@ -35,7 +35,7 @@ invCont.buildNewClassification = async function (req, res, next) {
 invCont.buildNewVehicle = async function (req, res, next) {
   let nav = await utilities.getNav()
   let options = await utilities.getClassificationOptions()
-  res.render("./inventory/addInventory", {
+  res.render("./inventory/addinventory", {
     title: "Add a New Vehicle",
     nav,
     options,
@@ -136,7 +136,7 @@ invCont.addVehicle = async function (req, res, next) {
     })
   } else {
     req.flash("notice", "Sorry, we couldn't add this vehicle.")
-    res.status(501).render("./inventory/addInventory", {
+    res.status(501).render("./inventory/addinventory", {
       title: "Add a New Vehicle",
       nav,
       errors: null,
