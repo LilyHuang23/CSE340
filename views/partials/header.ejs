@@ -7,10 +7,10 @@
       
       <a href="/account/login">  
         <% if(locals.loggedin) 
-        { %> Welcome <%= locals.accountData.account_firstname %>
-        <% } %> <span id="changeText" title="Click to log in" >
-          My Account
-        </span> </a>
-     
+        { %> Welcome <%= 
+          locals.accountData.account_firstname %> | 
+          <a href="/account/logout.ejs">Logout</a>
+        <% } else  { %> My Account <% } %> </a> 
     </div>
 </header>
+<script src="../../js/script.js"></script>

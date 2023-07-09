@@ -7,7 +7,7 @@
         you'll replace with mark (—) -->
     <%- messages() %>
     <!-- <%# options %> -->
-<form id="deleteForm" action="./inv/delete" method="post">
+<form id="deleteForm" action="/inv/delete" method="post">
     <p>Confirm Deletion - The delete is permanent.</p>
 <fieldset>
     <!-- Ensure that the "inv_id" hidden input remains in the form. -->
@@ -20,10 +20,9 @@
         <label for="invyear">Year:</label><br>
         <input type="text" id="invyear" name="inv_year" required pattern="[0-9]{4}$" value = "<%= locals.inv_year %>" title="4 Digits year">
    
-    <button class="deleteBtn" type="submit" disabled>Delete Vehicle</button>
+    <button class="deleteBtn" type="submit">Delete Vehicle</button>
     <input type="hidden" name="inv_id"
 <% if(locals.inv_id) { %> value="<%= locals.inv_id %>"
 <% } %>>
 </fieldset>
 </form>
-<script src="./js/inv-update"></script>

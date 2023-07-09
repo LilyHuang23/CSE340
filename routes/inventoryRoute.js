@@ -15,15 +15,14 @@ router.get("/detail/:inv_id", utilities.handleErrors(invController.detailByInven
 // AJAX - activity 5
 router.get("/getInventory/:classification_id",
     utilities.handleErrors(invController.getInventoryJSON));
-// Update the Inventory Item Routes - activity 5
-router.get("/edit/:inv_id", utilities.handleErrors(invController.editInventoryView));
+
 // Data Checking Middleware
 // Route to build vehicle management
 router.get("/",
     utilities.checkAccountType,
     utilities.handleErrors(invController.buildVehicleManagement));
 // delete the Inventory Item Routes - activity 5
-router.get("/inv/edit/:inv_id", utilities.handleErrors(invController.deleteInventory));
+// router.get("/inv/edit/:inv_id", utilities.handleErrors(invController.deleteInventory));
 
 // post new classification
 router.post("/addClassification",
@@ -35,9 +34,10 @@ router.post("/addinventory",
     validation.vehicleRules(),
     validation.checkVehicleData,
     utilities.handleErrors(invController.addVehicle));
-
+// Update the Inventory Item Routes - activity 5
+router.get("/edit/:inv_id", utilities.handleErrors(invController.editInventoryView));
 router.post("/update/", utilities.handleErrors(invController.updateInventory));
 // delete
 router.get("/delete/:inv_id", utilities.handleErrors(invController.deleteInventoryView));
-router.post("/delete/:inv_id", utilities.handleErrors(invController.deleteInventory));
+router.post("/delete/", utilities.handleErrors(invController.deleteInventory));
 module.exports = router;
