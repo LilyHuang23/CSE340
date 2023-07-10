@@ -69,6 +69,54 @@ async function updatePassword(account_password, account_id) {
   }
 }
 
+/* *****************************************************
+*                     Final
+* ******************************************************/
+
+
+/* ***************************
+ * Get message
+ * ************************** */
+async function getMessagesById(account_id) {
+  try {
+    const sql =
+      'SELECT message_id, message_subject, message_body, message_created, message_to, message_from, message_read, message_archived, account_firstname, account_lastname FROM message JOIN account ON message_to = account_id WHERE message_to = $1'
+    return await pool.query(sql, [account_id])
+  } catch(error) {
+    return new Error(error)
+  }
+}
+
+/* ***************************
+ * Get the message display
+ * ************************** */
+async function getMessageViewById(message_id) {
+  try {
+    const result = await pool.query('SELECT message_id, message_subject, message_from, message_body FROM public.message WHERE message_id = $1', [message_id]) 
+  return result.rows
+  } catch(error){
+    return new Error(error)
+  }
+}
+
+/* ***************************
+ *  Get the account names for the dropdown
+ * ************************** */
+async function getAccountNames(){
+  return await pool.query('SELECT * FROM public.account ORDER BY account_firstname, account_lastname')
+}
+
+/* ***************************
+ *  Insert new message into DB
+ * ****************************/
+async function newMessageSent(message_to, message_from, message_subject, message_body, message_id) {
+  try {
+    const sql = 'INSERT INTO public.message (message_to, message_from, message_subject, message_body, message_id) VALUES ($1, $2, $3, $4, $5) RETURNING *'
+    return await pool.query(sql, [message_to, message_from, message_subject, message_body, message_id])
+  } catch(error) {
+    return error.message
+  }
+}
 
 module.exports = {
   registerAccount,
@@ -76,5 +124,9 @@ module.exports = {
   getAccountByEmail,
   updateAccount,
   updatePassword,
-  getAccountByAccountId
+  getAccountByAccountId,
+  getMessagesById,
+  getMessageViewById,
+  getAccountNames,
+  newMessageSent,
 };

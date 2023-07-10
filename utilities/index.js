@@ -3,6 +3,7 @@ const invModel = require("../models/inventoryModel")
 const jwt = require("jsonwebtoken")
 require("dotenv").config()
 const Util = {}
+const accModel = require("../models/account-model")
 
 /* ************************
  * Constructs the nav HTML unordered list
@@ -166,5 +167,53 @@ Util.checkAccountType = (req, res, next) => {
     req.flash("error", "You do not have permission to access this page.")
     res.status(403).redirect("/account/login")
   }
- }
+}
+ /* ***************************************************
+*                      Final
+* *******************************************************/
+/* ********************************************
+*  Build the table for messages
+* *********************************************/
+Util.buildMessageTable = async function (item) {
+  let table = '<table><thead>'
+  table += '<tr><th>Received</th><th>Subject</th><th>From</th><th>Read</th></tr>'
+  table += '</thead>'
+  
+  table += '<tbody>'
+  item.forEach(function (item) {
+    table += `<tr><td>${item.message_created.toISOString().slice(0, 10)}</td><td><a href='/account/messages/${item.message_id}'</a>${item.message_subject}</td><td>${item.account_firstname} ${item.account_lastname}</td><td>${item.message_read}</td></tr>`
+  })
+  table += '</tbody></table>'
+  return table
+}
+
+/* ********************************************
+*  Build the read message
+* *********************************************/
+Util.buildMessageToRead = async function (item) {
+  let div = '<div>'
+  div += '<h3 id="subject"> Subject:' + item[0].message_subject + '</h3>'
+  div += '<h3 id="from"> From:' + item[0].message_from + '</h3>'
+  div += '<h3 id="body"> Message:' + item[0].message_body + '</h3>'
+  div += '</div>'
+ return div
+}
+
+/* **********************************************
+ * Constructs a drop down menu for selecting Names
+ ************************************************/
+Util.getName = async function(optionSelected) {
+  let data = await accModel.getAccountNames()
+  let select = "<select name='account_id' id='accountNames'>"
+  let options = "<option value=''>Choose an email recipient</option>"
+  data.rows.forEach((row) => {
+    options += `
+    <option
+      value = "${row.account_firstname} ${row.account_lastname}"
+      ${row.account_firstname === Number(optionSelected)? 'selected':''} > ${row.account_firstname} ${row.account_lastname} </option>`
+    })
+  select += options
+  select += "</select>"
+  return select
+}
 module.exports = Util

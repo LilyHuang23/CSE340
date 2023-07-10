@@ -57,5 +57,18 @@ regValidate.updatePasswordRules(),
 regValidate.checkPassword,
 utilities.handleErrors(accountController.updatePassword))
 
+// Final message
+// route to build the inbox view
+router.get("/inbox/:account_id", utilities.handleErrors(accountController.buildInbox))
+
+// route to build the message view
+router.get("/messages/:message_id", utilities.handleErrors(accountController.buildMessage))
+
+// Route for create new message view
+router.get("/createMessage", utilities.handleErrors(accountController.newMessageView))
+
+// Route to send a new message
+router.post("/createMessage", 
+utilities.handleErrors(accountController.sendNewMessage))
 
 module.exports = router;

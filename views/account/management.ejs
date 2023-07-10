@@ -15,6 +15,17 @@
 <h2> Welcome <%- locals.accountData.account_firstname  %></h2>
 <p>You are logged in</p>
 <a href="/account/updateView/<%- locals.accountData.account_id %>"> Update account information </a></p>
+
+
+ <!-- Message Links to Inbox -->
+ <h2>Message Center</h2>
+ <ul>
+   <li>You have unread messages</li>
+   <li>Go to <a href="/account/inbox/<%- locals.accountData.account_id %>"> inbox</a></li>
+ </ul>
+ 
+
+<!-- management view -->
 <% if (locals.accountData.account_type === 'Employee' || locals.accountData.account_type === 'Admin') { %>
     <h1> Inventory Management </h1> 
     <p><a href="/inv"> Management View </a></p>

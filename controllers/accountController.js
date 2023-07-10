@@ -245,10 +245,102 @@ async function accountLogout(req, res) {
   )
    
 }
+
+/* *****************************************************
+*                     Final
+* ******************************************************/
+
+/* ****************************************
+*  Deliver message inbox view
+* *****************************************/
+async function buildInbox(req, res) {
+  let nav = await utilities.getNav()
+  const accountId = req.params.account_id
+  const accountData = await accountModel.getAccountByAccountId(accountId)
+  const messageDataTable = await accountModel.getMessagesById(accountId)
+  const table = await utilities.buildMessageTable(messageDataTable.rows)
+  res.render("account/inbox", {
+    title: accountData.account_firstname + " " + accountData.account_lastname + " " + "inbox",
+    nav,
+    errors: null,
+    table,
+  })
+}
+
+/* ****************************************
+*  Deliver message view
+* *****************************************/
+async function buildMessage(req, res) {
+  let nav = await utilities.getNav()
+  const messageId = req.params.message_id
+  const messageData = await accountModel.getMessageViewById(messageId)
+  let div = await utilities.buildMessageToRead(messageData)
+  console.log(messageData)
+  res.render("./account/messages", {
+    title: messageData[0].message_subject,
+    nav,
+    div,
+    errors:null,
+    message_id: messageId
+  })
+}
+
+/* ****************************************
+*  Deliver create message view
+* *****************************************/
+async function newMessageView(req, res) {
+let nav = await utilities.getNav()
+const names = await accountModel.getAccountNames()
+let select = await utilities.getName(names)
+res.render("./account/createMessage", {
+  title: "New Message",
+  nav,
+  select,
+  errors:null,
+})
+}
+
+/* ****************************************
+*  Process message send
+* *****************************************/
+async function sendNewMessage (req, res) {
+  const {message_to, message_from, message_subject, message_body} = req.body
+
+  const result = await accountModel.newMessageSent(message_to, message_from, message_subject, message_body)
+  if (result) {
+    let nav = await utilities.getNav()
+    let accNames = await accountModel.getAccountNames()
+    let select = await utilities.getName(accNames)
+    const accountId = req.params.account_id
+    const accountData = await accountModel.getAccountByAccountId(accountId)
+    const messageDataTable = await accountModel.getMessagesById(accountId)
+    const table = await utilities.buildMessageTable(messageDataTable.rows)
+    req.flash("success", "Your message has been sent")
+    res.status(201).render("account/inbox", {
+      title: "Account Management",
+      nav,
+      errors: null,
+      select,
+      table
+    }) 
+  } else {
+    req.flash ("error", "Sorry. Message was not sent. Try again")
+    res.status(501).render("account/createMessage", {
+      title: "New message",
+      nav,
+      errors,
+      select,
+      table
+    })
+  }
+
+
+}
 module.exports = {
   buildLogin, buildRegister,
   registerAccount, accountLogin,
   buildManagement, accountUpdateView,
-  updateInfo, updatePassword, buildLogout, accountLogout
+  updateInfo, updatePassword, buildLogout, accountLogout,
+  buildInbox, buildMessage, newMessageView, sendNewMessage
 }
   
