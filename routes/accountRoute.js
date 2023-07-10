@@ -30,13 +30,12 @@ router.post(
     utilities.handleErrors(accountController.accountLogin)  
   )
 // deliver logout view
-router.get("/logout", utilities.handleErrors(accountController.buildLogout));
+router.get("/logout", utilities.handleErrors(accountController.accountLogout));
 
-  // Process the logout attempt
-  router.post(
-    "/logout",
-    utilities.handleErrors(accountController.accountLogout)  
-  )
+// Process the logout attempt
+// router.post(
+//   "/logout",
+//   utilities.handleErrors(accountController.accountLogout))
 // Route to build account view
 router.get("/", utilities.checkLogin,
   utilities.handleErrors(accountController.buildManagement))

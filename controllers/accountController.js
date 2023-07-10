@@ -220,24 +220,24 @@ async function updatePassword (req, res) {
 /* ****************************************
 *  Deliver logout view
 * *************************************** */
-async function buildLogout(req, res, next) {
-  let nav = await utilities.getNav()
-  res.render("./account/logout", {
-      title: "Logout",
-      nav,
-      errors: null,
-  })
-}
+// async function buildLogout(req, res, next) {
+//   let nav = await utilities.getNav()
+//   res.render("./account/logout", {
+//       title: "Logout",
+//       nav,
+//       errors: null,
+//   })
+// }
 /* ****************************************
  *  Process logout request
  *  Activity 5
  * ************************************ */
 async function accountLogout(req, res) {
-  let nav = await utilities.getNav()
+  // let nav = await utilities.getNav()
   res.locals.loggedin = 0
   res.locals.accountData = {}
   res.clearCookie("jwt")
-  res.redirect("/views/index")
+  res.redirect("/")
   req.flash(
     "notice",
     `Welcome `
@@ -340,7 +340,7 @@ module.exports = {
   buildLogin, buildRegister,
   registerAccount, accountLogin,
   buildManagement, accountUpdateView,
-  updateInfo, updatePassword, buildLogout, accountLogout,
+  updateInfo, updatePassword, accountLogout,
   buildInbox, buildMessage, newMessageView, sendNewMessage
 }
   
