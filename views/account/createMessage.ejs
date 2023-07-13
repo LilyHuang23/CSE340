@@ -25,6 +25,8 @@
     <label for="subjectBody">Message:</label> <br>
     <textarea name="subject_body" id="subjectBody" cols="30" rows="10" required></textarea> <br>
     <input type="submit" name="submit" value="Send" id="sendButton">
-    <input type="hidden" name="message_from" <% if(locals.message_from) { %> value="<%= locals.message_from %>" <% } %> >
+    <input type="hidden" name="message_from" <% if(locals.accountData.account_id) { %> value="<%= locals.accountData.account_id %>" <% } %> >
   </fieldset>
 </form>
+
+<a href="/account">Return To Inbox</a>

@@ -115,7 +115,7 @@ validate.checkLoginData = async (req, res, next) => {
    }
    next()
  }
-    /* ******************************
+/* ******************************
  * Update Information Validation Rules
  * ***************************** */
 validate.updateInfoRules = () => {
@@ -211,6 +211,55 @@ validate.checkUpdateInfo = async (req, res, next) => {
   }
   next()
 }
+/* *******************************************
+*                    Final
+* ******************************************** */
+/* ******************************
+* Message Validation Rules
+* ***************************** */
+validate.MessageRules = () => {
+  return [
+    body("message_to")
+    .trim()
+    .isAlpha()
+    .withMessage("Select a recipient"),
 
+    body("message_subject")
+      .trim()
+      .isLength({min:5})
+      .withMessage("Please provide a valid subject"),
+
+    body("message_body")
+      .trim()
+      .isAlphanumeric()
+      .withMessage("Please provide a message to send")
+  ]
+}
+
+
+/* ******************************
+ * Check message validation rules
+ * ***************************** */
+validate.checkCreateMessage = async (req, res, next) => {
+  const {message_to, message_subject, message_body} = req.body
+  let errors = []
+  errors = validationResult(req)
+  if (!errors.isEmpty()) {
+    let nav = await utilities.getNav()
+    const names = await accountModel.getAccountNames()
+    let select = await utilities.getName(names)
+    res.render("account/createMessage", {
+      errors,
+      title: "New Message",
+      nav,
+      select,
+      message_to,
+      message_subject,
+      message_body,
+    })
+    return
+  }
+  next()
+}
   module.exports = validate
   

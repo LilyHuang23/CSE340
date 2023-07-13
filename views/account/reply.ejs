@@ -5,25 +5,34 @@
       res.redirect('/')
     } %>
   
-  <!-- flash messages if any will be displaced as a result of the following line of code -->
+<% if (errors) { %>
+  <ul class="notice">
+  <% errors.array().forEach(error => { %>
+    <li><%= error.msg %></li>
+<%  }) %>
+  </ul>
+<% } %>
   <%- messages() %>
-  
-  
-  <!-- Subject of the message in bold -->
-  
-  <!-- Message to read -->
-  <%- div %>
-  
-  <!-- Read Message thick line after the message-->
-  <hr> 
-  
-  
-  
-  <!-- links -->
-  <div id="links">
-  <p><a href="./inbox">Return To Inbox</a></p>
-  <form action="/account/Reply"><input type="submit" value="Reply"></form>
-  <form action=""><input type="submit" value="Mark as Read"></form>
-  <form action="/account/archive"><input type="submit" value="Archive Message"></form>
-  <form action=""><input type="submit" value="Delete Message"></form>
-  </div>
+
+  <%#- messageId %>
+
+  <!-- Replying message Form-->
+  <form action="/account/reply" method="post">
+    <fieldset>
+        <label for="message_from" id="accountNames">Reply To:</label> <br>
+        <input name="message_from" type="text" readonly value= "<%- locals.accountData.account_firstname %> <%- locals.accountData.account_lastname %>"> <br>
+        <label for="message_subject">Subject:</label> <br>
+        <input name="message_subject" id="subjectMessage" type="text" value= "RE: <%- message%> " readonly required> <br>
+        <label for="message_body">Message:</label> <br>
+        <textarea name="message_body" id="subjectBody" cols="30" rows="10"  required>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/////////Previous Message////////////&nbsp;&nbsp;&nbsp;&nbsp;<%- textBody %>
+        </textarea> <br>
+        <input type="submit" name="submit" value="Send Reply" id="sendButton"> <br>
+        <input type="hidden" name="message_id"
+        <% if(messageId) { %>
+           value="<%= messageId %>"
+        <% } %> >
+    </fieldset>
+  </form>
+
+<a href="/account">Return To Inbox</a>
