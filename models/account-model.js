@@ -80,9 +80,9 @@ async function updatePassword(account_password, account_id) {
 async function getMessagesById(account_id) {
   try {
     const sql =
-      'SELECT message_id, message_subject, message_body, message_created, message_to, message_from, message_read, message_archived, account_firstname, account_lastname FROM message JOIN account ON message_to = account_id WHERE message_to = $1'
-    return await pool.query(sql, [account_id])
-  } catch(error) {
+      'SELECT a.account_firstname, account_lastname, message_id, message_from, message_to, message_created, message_read, message_body, message_subject FROM message m FULL JOIN account a ON m.message_from = a.account_id WHERE message_to = $1 AND message_archived = false'
+      return await pool.query(sql, [account_id]);
+    } catch (error) {
     return new Error(error)
   }
 }
@@ -109,15 +109,87 @@ async function getAccountNames(){
 /* ***************************
  *  Insert new message into DB
  * ****************************/
-async function newMessageSent(message_to, message_from, message_subject, message_body, message_id) {
+async function newMessageSent(message_to, message_from, message_subject, message_body) {
   try {
-    const sql = 'INSERT INTO public.message (message_to, message_from, message_subject, message_body, message_id) VALUES ($1, $2, $3, $4, $5) RETURNING *'
-    return await pool.query(sql, [message_to, message_from, message_subject, message_body, message_id])
+    const sql = 'INSERT INTO public.message (message_to, message_from, message_subject, message_body) VALUES ($1, $2, $3, $4) RETURNING *'
+    return await pool.query(sql, [message_to, message_from, message_subject, message_body])
   } catch(error) {
     return error.message
   }
 }
+/* **********************************
+ * Update to Mark as read in the DB
+ * **********************************/
 
+async function markMessageAsRead (message_id){
+  try{
+    const sql = "UPDATE public.message SET message_read = true WHERE message_id = $1"
+    return await pool.query(sql, [message_id])
+  } catch(error){
+    return new Error(error)
+  }
+}
+
+/* **********************************
+ * Update to archive list in the DB
+ * **********************************/
+async function markMessageAsArchived (message_id){
+  try{
+    const sql = "UPDATE public.message SET message_archived = true WHERE message_id = $1"
+    return await pool.query(sql, [message_id])
+  } catch(error){
+    return new Error(error)
+  }
+}
+
+/* **********************************
+ * Show archived messages in the DB
+ * **********************************/
+async function getArchivedMessages(account_id) {
+  try {
+    const result = await pool.query('SELECT a.account_firstname, account_lastname, message_id, message_from, message_to, message_created, message_read, message_body, message_subject, message_archived FROM message m FULL JOIN account a ON m.message_from = a.account_id WHERE message_to = $1 AND message_archived = true', [account_id]) 
+  return result.rows 
+  } catch(error){
+    return new Error(error)
+  }
+}
+
+/* **********************************
+ * Delete messages in the DB
+ * **********************************/
+async function deleteMessage(message_id) {
+  try{
+    const sql = "DELETE FROM public.message WHERE message_id = $1"
+    return await pool.query(sql, [message_id])
+  } catch(error){
+    return new Error(error)
+  }
+}
+
+/* **********************************
+ * Select unread messages
+ * **********************************/
+async function unreadMessages(message_to) {
+  try {
+    const sql =
+    "SELECT COUNT(message_read) FROM message m FULL JOIN account a ON m.message_from = a.account_id WHERE message_to = $1 AND message_read = false GROUP BY message_read";
+    return await pool.query(sql, [message_to]);
+  } catch (error) {
+    return error.message;
+  }
+}
+
+/* **********************************
+ * Update message (reply)
+ * **********************************/
+async function replyMessageReceived (message_id, message_subject, message_body) {
+  try {
+    const sql = "UPDATE public.message SET message_subject = $2 ,message_body = $3 WHERE message_id = $1 ";
+    return await pool.query(sql, [message_id, message_subject, message_body])
+  } catch (error) {
+    return error.message;
+  }
+}
 module.exports = {
   registerAccount,
   checkExistingEmail,
@@ -129,4 +201,10 @@ module.exports = {
   getMessageViewById,
   getAccountNames,
   newMessageSent,
+  markMessageAsArchived,
+  markMessageAsRead,
+  getArchivedMessages,
+  deleteMessage,
+  unreadMessages,
+  replyMessageReceived
 };

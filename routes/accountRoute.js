@@ -67,7 +67,27 @@ router.get("/messages/:message_id", utilities.handleErrors(accountController.bui
 router.get("/createMessage", utilities.handleErrors(accountController.newMessageView))
 
 // Route to send a new message
-router.post("/createMessage", 
+router.post("/createMessage",
+// regValidate.createMessageRules(), 
+// regValidate.checkCreateMessage,
 utilities.handleErrors(accountController.sendNewMessage))
+
+// Route for reply message view
+router.get("/reply/:message_id", utilities.handleErrors(accountController.replyMessage))
+
+// Route for send reply message
+router.post("/reply", utilities.handleErrors(accountController.replyMessage))
+
+// Route to mark as read
+router.post("/read/:message_id", utilities.handleErrors(accountController.markAsRead))
+
+// Route for archived message view
+router.get("/archive", utilities.handleErrors(accountController.archiveMessageView))
+
+// Route to archive message
+router.post("/archive/:message_id", utilities.handleErrors(accountController.archiveMessage))
+
+// Route to delete message
+router.post("/delete/:message_id", utilities.handleErrors(accountController.deleteMessage))
 
 module.exports = router;
