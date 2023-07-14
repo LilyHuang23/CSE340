@@ -20,4 +20,16 @@
  
   <%- table %>
 
-  <p><a href="/account">Return To Inbox</a></p>
+  <a href="/account/messages/<%= locals.accountData.account_id %>">Return to Inbox</a>
+
+  <table id="messageDisplay" class="messageDisplay">
+      <thead>
+          <tr>
+              <th>Received</th>
+              <th>Subject</th>
+              <th>From</th>
+              <th>Read</th>
+          </tr>
+      </thead>
+    
+  </table>

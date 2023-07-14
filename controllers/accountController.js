@@ -33,13 +33,13 @@ async function buildRegister(req, res, next) {
 * *************************************** */
 async function buildManagement(req, res, next) {
   let nav = await utilities.getNav()
-  let accountId = res.locals.accountData.account_id
-  const unread = await accountModel.unreadMessages(accountId)
+  const messages = await accountModel.unreadMessages(res.locals.accountData.account_id)
+  const unread = messages.length
 
   res.render("account/management", {
     title: "Account Management",
     nav,
-    unread: unread.rows[0].count,
+    unread: unread,
     errors:null,
   })
 }
@@ -276,27 +276,26 @@ async function buildInbox(req, res) {
 * *****************************************/
 async function buildMessage(req, res) {
   let nav = await utilities.getNav()
-  const accountId = res.locals.accountData.account_id
-  const messageData = await accountModel.getMessagesById(accountId)
-
-  const messageId = req.params.message_id
-  const message = await accountModel.getMessageViewByID(messageId)
- 
+  const message_from = parseInt(req.params.accId);
+  const messages = await accountModel.getMessagesAndName(message_from)
+  console.log(messages)
+  const archMessages = await accountModel.getArchivedMessages(message_from)
+  console.log(archMessages)
+  const count = archMessages.length
   res.render("account/messages", {
-    title: message[0].message_subject,
+    title: `${res.locals.accountData.account_firstname} ${res.locals.accountData.account_lastname} Inbox`,
     nav,
-    from: messageData.rows[0].account_firstname + " " + messageData.rows[0].account_lastname,
-    message: message[0].message_body,
-    created: message[0].message_created,
-    errors:null,
-    message_id: messageId,
+    errors: null,
+    message_from: message_from,
+    count: count,
+    messagesArray: messages
   })
 }
 
 /* ****************************************
 *  Deliver create message view
 * *****************************************/
-async function newMessageView(req, res) {
+async function buildCreateMessage(req, res) {
 let nav = await utilities.getNav()
 const names = await accountModel.getAccountNames()
 let select = await utilities.getName(names)
@@ -316,11 +315,10 @@ async function sendNewMessage (req, res) {
 
   const result = await accountModel.newMessageSent(message_to, message_from, message_subject, message_body)
   if (result) {
-    let nav = await utilities.getNav()
+    let nav = await utilities.getNav()    
     let accNames = await accountModel.getAccountNames()
     let select = await utilities.getName(accNames)
     const accountId = req.params.account_id
-    // const accountData = await accountModel.getAccountByAccountId(accountId)
     const messageDataTable = await accountModel.getMessagesById(accountId)
     const table = await utilities.buildMessageTable(messageDataTable.rows)
     req.flash("success", "Your message has been sent")
@@ -333,7 +331,7 @@ async function sendNewMessage (req, res) {
     }) 
   } else {
     req.flash ("error", "Sorry. Message was not sent. Try again")
-    res.status(501).render("account/createMessage", {
+    res.status(501).render("account/inbox", {
       title: "New message",
       nav,
       errors,
@@ -346,19 +344,14 @@ async function sendNewMessage (req, res) {
  /* ****************************************
 *  Deliver reply message view
 * *****************************************/
-async function replyMessageView(req, res) {
+async function buildReplyMessage(req, res) {
   let nav = await utilities.getNav()
 
   const accountId = res.locals.accountData.account_id
   const messageData = await accountModel.getMessagesById(accountId)
   const messageId = req.params.message_id
   const message = await accountModel.getMessageViewByID(messageId)
-  // console.log(messageId)
-
-  // console.log(message)
-  // console.log(messageData)
-  // console.log(messageData.rows[0].message_subject)
-  
+ 
   res.render("account/reply", {
     title: "Reply Message",
     nav,
@@ -462,15 +455,15 @@ async function markAsRead(req, res) {
 /******************************************
 *  Deliver archive view
 *******************************************/
-async function archiveMessageView(req, res) {
+async function buildArchiveMessage(req, res) {
   let nav = await utilities.getNav()
-  const accountId = res.locals.accountData.account_id
-  // const accountData = await accountModel.getAccountByAccountId(accountId)
-  const messageDataTable = await accountModel.getArchivedMessages(accountId)
-  console.log(messageDataTable)
+  const message_to = parseInt(req.params.accId);
+  const archMessages = await accountModel.getArchivedMessages(message_to)
+  const messageDataTable = await accountModel.getArchivedMessages(message_to)
+  // console.log(messageDataTable)
   const table = await utilities.buildMessageTable(messageDataTable)
   res.render("account/archive", {
-    title: messageDataTable[0].account_firstname + " " + messageDataTable[0].account_lastname +"'s archive",
+    title: `${res.locals.accountData.account_firstname} ${res.locals.accountData.account_lastname} Archives`,
     nav,
     errors: null,
     table
@@ -561,9 +554,9 @@ module.exports = {
   registerAccount, accountLogin,
   buildManagement, accountUpdateView,
   updateInfo, updatePassword, accountLogout,
-  buildInbox, buildMessage, newMessageView, sendNewMessage,
-  replyMessageView, replyMessage, markAsRead,
-  archiveMessageView, archiveMessage,
+  buildInbox, buildMessage, buildCreateMessage, sendNewMessage,
+  buildReplyMessage, replyMessage, markAsRead,
+  buildArchiveMessage, archiveMessage,
   deleteMessage,
 }
   

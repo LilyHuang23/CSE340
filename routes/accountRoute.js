@@ -47,7 +47,8 @@ utilities.handleErrors(accountController.accountUpdateView))
 // Process the update information attempt
 router.post("/updateView",
 regValidate.updateInfoRules(),
-regValidate.checkUpdateInfo,
+  regValidate.checkUpdateInfo,
+  utilities.checkLogin,
 utilities.handleErrors(accountController.updateInfo))
 
 // Process the update password attempt
@@ -64,7 +65,11 @@ router.get("/inbox/:account_id", utilities.handleErrors(accountController.buildI
 router.get("/messages/:message_id", utilities.handleErrors(accountController.buildMessage))
 
 // Route for create new message view
-router.get("/createMessage", utilities.handleErrors(accountController.newMessageView))
+router.get("/createMessage", utilities.handleErrors(accountController.buildCreateMessage))
+// Route for archived message view
+router.get("/archive", utilities.handleErrors(accountController.buildArchiveMessage))
+// Route for reply message view
+router.get("/reply/:message_id", utilities.handleErrors(accountController.buildReplyMessage))
 
 // Route to send a new message
 router.post("/createMessage",
@@ -72,8 +77,6 @@ router.post("/createMessage",
 // regValidate.checkCreateMessage,
 utilities.handleErrors(accountController.sendNewMessage))
 
-// Route for reply message view
-router.get("/reply/:message_id", utilities.handleErrors(accountController.replyMessage))
 
 // Route for send reply message
 router.post("/reply", utilities.handleErrors(accountController.replyMessage))
@@ -81,8 +84,6 @@ router.post("/reply", utilities.handleErrors(accountController.replyMessage))
 // Route to mark as read
 router.post("/read/:message_id", utilities.handleErrors(accountController.markAsRead))
 
-// Route for archived message view
-router.get("/archive", utilities.handleErrors(accountController.archiveMessageView))
 
 // Route to archive message
 router.post("/archive/:message_id", utilities.handleErrors(accountController.archiveMessage))
