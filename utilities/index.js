@@ -180,27 +180,15 @@ Util.buildMessageTable = async function (item) {
   table += '</thead>'
   
   table += '<tbody>'
-  item.forEach(function (item) {
+  item.forEach((item) => {
     table += `<tr><td>${item.message_created.toISOString().slice(0, 10)}</td><td><a href='/account/messages/${item.message_id}'</a>${item.message_subject}</td><td>${item.account_firstname} ${item.account_lastname}</td><td>${item.message_read}</td></tr>`
   })
   table += '</tbody></table>'
   return table
 }
 
-/* ********************************************
-*  Build the read message
-* *********************************************/
-Util.buildMessageToRead = async function (item) {
-  let div = '<div>'
-  div += '<h3 id="subject"> Subject:' + item[0].message_subject + '</h3>'
-  div += '<h3 id="from"> From:' + item[0].message_from + '</h3>'
-  div += '<h3 id="body"> Message:' + item[0].message_body + '</h3>'
-  div += '</div>'
- return div
-}
-
 /* **********************************************
- * Constructs a drop down menu for selecting Names
+ * Drop down menu for Names
  ************************************************/
 Util.getName = async function(optionSelected) {
   let data = await accModel.getAccountNames()

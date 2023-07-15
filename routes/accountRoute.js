@@ -73,7 +73,7 @@ router.get("/reply/:message_id", utilities.handleErrors(accountController.buildR
 
 // Route to send a new message
 router.post("/createMessage",
-// regValidate.createMessageRules(), 
+// regValidate.MessageRules(), 
 // regValidate.checkCreateMessage,
 utilities.handleErrors(accountController.sendNewMessage))
 
@@ -83,7 +83,6 @@ router.post("/reply", utilities.handleErrors(accountController.replyMessage))
 
 // Route to mark as read
 router.post("/read/:message_id", utilities.handleErrors(accountController.markAsRead))
-
 
 // Route to archive message
 router.post("/archive/:message_id", utilities.handleErrors(accountController.archiveMessage))
