@@ -255,7 +255,7 @@ async function accountLogout(req, res) {
 * ******************************************************/
 
 /* ****************************************
-*  Deliver message inbox view
+*  Deliver message inbox view - working
 * *****************************************/
 async function buildInbox(req, res) {
   let nav = await utilities.getNav()
@@ -271,7 +271,7 @@ async function buildInbox(req, res) {
   })
 }
 /* ****************************************
-*  Deliver create message view
+*  Deliver create message view - working
 * *****************************************/
 async function buildCreateMessage(req, res) {
   let nav = await utilities.getNav()
@@ -285,7 +285,7 @@ async function buildCreateMessage(req, res) {
   })
   }
 /* ****************************************
-*  Deliver message view
+*  Deliver message view - working
 * *****************************************/
 async function buildMessage(req, res) {
   let nav = await utilities.getNav()
@@ -431,7 +431,7 @@ async function replyMessage(req, res) {
 
 }
   /* ****************************************
-*  Process Mark as read
+*  Process Mark as read - working
 * *****************************************/
 async function markAsRead(req, res) {
   let nav = await utilities.getNav()
@@ -475,7 +475,7 @@ async function markAsRead(req, res) {
 
 
   /* ****************************************
-*  Process archive message
+*  Process archive message - working
 * *****************************************/
 async function archiveMessage(req, res){
   let nav = await utilities.getNav()
@@ -516,7 +516,7 @@ async function archiveMessage(req, res){
 
 
 /******************************************
-*  Process delete message
+*  Process delete message - working
 *******************************************/
 async function deleteMessage(req, res){
   let nav = await utilities.getNav()
