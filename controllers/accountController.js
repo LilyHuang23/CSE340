@@ -314,7 +314,6 @@ async function buildArchiveMessage(req, res) {
   let nav = await utilities.getNav()
   // const accountData = await accountModel.getAccountByAccountId(accountId)
   const accountId = res.locals.account_id
-  
   const messageDataTable = await accountModel.getArchivedMessages(accountId)
   // console.log(messageDataTable)
   const table = await utilities.buildMessageTable(messageDataTable)

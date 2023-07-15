@@ -19,26 +19,26 @@
    <h3>Message:</h3> <p><%- message %></p>
    <h3>Sent at: </h3><p><%- created %></p>
   
-  <%#- div %>
+  <!-- <%#- div %> -->
   <hr> 
   
-  <!-- links -->
+  <!-- actions -->
   <div id="links">
-  <p><a href="/account">Return To Inbox</a></p>
+  <p><a href="/account/inbox">Return To Inbox</a></p>
   
-  <form action="/account/reply/<%- message_id %>" >
-    <input name="message_id" type="submit" value="Reply">
+  <form action= "/account/reply/<%- message_id %>" >
+    <input name="message_id" type="submit" value="Reply <%- from %>">
   </form>
   
-  <form action="/account/read/<%- message_id %>" method="get" >
+  <form action= "/account/read/<%- message_id %>" method= "post" >
     <input name="message_id" type="submit" value="Mark as Read">
   </form>
   
-  <form action="/account/archive/<%- message_id %>" method="post">
+  <form action= "/account/archive/<%- message_id %>" method= "post">
     <input name="message_id" type="submit" value="Archive Message">
   </form>
   
-  <form action="/account/delete/<%- message_id %>" method="post">
+  <form action= "/account/delete/<%- message_id %>" method= "post">
     <input name="message_id" type="submit" value="Delete Message">
   </form>
   

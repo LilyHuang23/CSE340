@@ -8,8 +8,8 @@
       <a href="/account/login">  
         <% if(locals.loggedin) 
         { %> Welcome <%= 
-          locals.accountData.account_firstname %> | 
-          <a href="/account/logout">Logout</a>
+          locals.accountData.account_firstname %>  </a>
+          <a href="/account/logout">Logout
         <% } else  { %> My Account <% } %> </a> 
     </div>
 </header>

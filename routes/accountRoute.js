@@ -73,8 +73,8 @@ router.get("/reply/:message_id", utilities.handleErrors(accountController.buildR
 
 // Route to send a new message
 router.post("/createMessage",
-// regValidate.MessageRules(), 
-// regValidate.checkCreateMessage,
+regValidate.MessageRules(), 
+regValidate.checkCreateMessage,
 utilities.handleErrors(accountController.sendNewMessage))
 
 
