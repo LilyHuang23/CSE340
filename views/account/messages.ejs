@@ -18,13 +18,11 @@
    <h3>From:</h3> <p><%- from %></p>
    <h3>Message:</h3> <p><%- message %></p>
    <h3>Sent at: </h3><p><%- created %></p>
-  
-  <!-- <%#- div %> -->
+
   <hr> 
   
   <!-- actions -->
   <div id="links">
-  <p><a href="/account/inbox">Return To Inbox</a></p>
   
   <form action= "/account/reply/<%- message_id %>" >
     <input name="message_id" type="submit" value="Reply <%- from %>">
@@ -41,5 +39,6 @@
   <form action= "/account/delete/<%- message_id %>" method= "post">
     <input name="message_id" type="submit" value="Delete Message">
   </form>
-  
+  <a href="/account/inbox/<%- locals.accountData.account_id %>">Go to inbox</a>
+
   </div>

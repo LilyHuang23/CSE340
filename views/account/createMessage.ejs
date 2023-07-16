@@ -15,18 +15,18 @@
   <% } %>
 
 <!-- Form for new message -->
-<form action="/account/createMessage" method="post">
+<form id="createMessageForm" action="/account/createMessage" method="post">
   <fieldset>
     <p>ALL FIELDS ARE REQUIRED</p>
-    <label for="message_to" id="message_to">To:</label> <br>
+    <label for="message_to" id="message_to" >To:</label> <br>
     <%- select %> <br>
     <label for="message_subject">Subject:</label> <br>
-    <input name="message_subject" id="message_subject" type="text" required> <br>
+    <input name="message_subject" id="message_subject" type="text" required value = "<%= locals.message_subject %>"> <br>
     <label for="message_body">Message:</label> <br>
-    <textarea name="message_body" id="message_body" cols="30" rows="10" required></textarea> <br>
+    <textarea name="message_body" id="message_body" cols="30" rows="10" required>  <%= locals.message_body %></textarea> <br>
     <input type="submit" name="submit" value="Send" id="sendButton">
     <input type="hidden" name="message_from" <% if(locals.accountData.account_id) { %> value="<%= locals.accountData.account_id %>" <% } %> >
   </fieldset>
 </form>
 
-<a href="/account/inbox/<%- locals.accountData.account_id %>">Go to inbox</a>
+<a href="/account/inbox/<%- locals.accountData.account_id %>">Return to inbox</a>

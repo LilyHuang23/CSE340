@@ -86,8 +86,6 @@ async function getMessagesById(account_id) {
     return new Error(error)
   }
 }
-
-
 /* ***************************
  * Get the message display without a join
  * ************************** */
@@ -111,7 +109,7 @@ async function getAccountNames(){
 /* ***************************
  *  Insert new message into DB
  * ****************************/
-async function sentMessage(message_subject, message_to, message_from,  message_body) {
+async function sentMessage(message_to, message_from, message_subject, message_body) {
   try {
     const sql = 'INSERT INTO public.message (message_to, message_from, message_subject, message_body) VALUES ($1, $2, $3, $4) RETURNING *'
     return await pool.query(sql, [message_to, message_from, message_subject, message_body])
@@ -147,14 +145,15 @@ async function markMessageAsArchived (message_id){
 /* **********************************
  * Show archived messages in the DB
  * **********************************/
-async function getArchivedMessages (account_id) {
+async function getArchivedMessages (message_to) {
   try {
-    const result = await pool.query('SELECT a.account_firstname, account_lastname, message_id, message_from, message_to, message_created, message_read, message_body, message_subject, message_archived FROM message m FULL JOIN account a ON m.message_from = a.account_id WHERE message_to = $1 AND message_archived = true',
-      [account_id]) 
-    return result.rows 
-    } catch(error){
-      return new Error(error)
-    }
+    const result = await pool.query(
+      'SELECT m.*, a.account_firstname AS message_from_firstname, a.account_lastname AS message_from_lastname FROM public.message m LEFT JOIN public.account a ON m.message_from = a.account_id WHERE m.message_to IN ($1) AND m.message_archived = true ORDER BY m.message_created desc',
+      [message_to])
+    return result.rows
+  } catch (error) {
+    return new Error("No message found")
+  }
 }
 
 /* **********************************
@@ -168,19 +167,32 @@ async function deleteMessage(message_id) {
     return new Error(error)
   }
 }
-
-/* **********************************
- * Select unread messages
- * **********************************/
-async function unreadMessages(message_to) {
+/* *****************************
+* Return messages not read using messages_to
+* ***************************** */
+async function getUnreadMessages(message_to) {
   try {
-    const sql =
-    "SELECT COUNT(message_read) FROM message m FULL JOIN account a ON m.message_from = a.account_id WHERE message_to = $1 AND message_read = false GROUP BY message_read";
-    return await pool.query(sql, [message_to]);
+    const result = await pool.query(
+      'SELECT message_id, message_subject, message_body, message_created, message_to, message_from, message_read, message_archived FROM message WHERE message_to = $1 AND message_read = false',
+      [message_to])
+    return result.rows
   } catch (error) {
-    return error.message;
+    return new Error("No message found")
   }
 }
+
+// /* **********************************
+//  * Select unread messages
+//  * **********************************/
+// async function unreadMessages(message_to) {
+//   try {
+//     const sql =
+//     "SELECT COUNT(message_read) FROM message m FULL JOIN account a ON m.message_from = a.account_id WHERE message_to = $1 AND message_read = false GROUP BY message_read";
+//     return await pool.query(sql, [message_to]);
+//   } catch (error) {
+//     return error.message;
+//   }
+// }
 
 /* **********************************
  * Reply message
@@ -208,6 +220,6 @@ module.exports = {
   markMessageAsRead,
   getArchivedMessages,
   deleteMessage,
-  unreadMessages,
+  getUnreadMessages,
   replyReceivedMessage
 };

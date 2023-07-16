@@ -33,14 +33,15 @@ async function buildRegister(req, res, next) {
 * *************************************** */
 async function buildManagement(req, res, next) {
   let nav = await utilities.getNav()
-  let accountId = res.locals.accountData.account_id
-  let unread = await accountModel.unreadMessages(accountId)
-
+  // let accountId = res.locals.account_id
+  // let unread = await accountModel.unreadMessages(accountId)
+  const messages = await accountModel.getUnreadMessages(res.locals.accountData.account_id)
+  const count = messages.length
   res.render("account/management", {
     title: "Account Management",
     nav,
-    unread: unread,
-    errors:null,
+    count: count,
+    errors: null,
   })
 }
 /* ****************************************
@@ -221,17 +222,7 @@ async function updatePassword (req, res) {
   })
  }
 }
-/* ****************************************
-*  Deliver logout view
-* *************************************** */
-// async function buildLogout(req, res, next) {
-//   let nav = await utilities.getNav()
-//   res.render("./account/logout", {
-//       title: "Logout",
-//       nav,
-//       errors: null,
-//   })
-// }
+
 /* ****************************************
  *  Process logout request
  *  Activity 5
@@ -318,8 +309,7 @@ async function buildArchiveMessage(req, res) {
   // console.log(messageDataTable)
   const table = await utilities.buildMessageTable(messageDataTable)
   res.render("account/archive", {
-    title: res.locals.account_firstname + " " + res.locals.account_firstname +"'s archive",
-    nav,
+    title: `${res.locals.accountData.account_firstname} ${res.locals.accountData.account_lastname} Archives`,    nav,
     errors: null,
     table
   })
@@ -352,32 +342,35 @@ async function sendNewMessage (req, res) {
   const {message_to, message_from, message_subject, message_body} = req.body
 
   const result = await accountModel.sentMessage(message_to, message_from, message_subject, message_body)
-  // console.log(result)
   if (result) {
-    let nav = await utilities.getNav()
-   
-    const accountId = res.locals.accountData.account_id
-    let unread = await accountModel.unreadMessages(accountId)
+    let nav = await utilities.getNav()  
+    // const accountId = res.locals.accountData.account_id
+    // let unread = await accountModel.unreadMessages(accountId)
     // console.log(accountId, unread.rows)
+    const messages = await accountModel.getUnreadMessages(res.locals.accountData.account_id)
+  const count = messages.length
     const messageDataTable = await accountModel.getMessagesById(accountId)
    
     req.flash("success", "Message has been sent")
     res.status(201).render("account/management", {
       title: "Account Management",
       nav,
+      count: count,
       errors: null,
-      unread: unread
+      unread: unread,
+      messageDataTable
     }) 
   } else {
     let select = await utilities.getName()
+    const accountId = res.locals.account_id
     const table = await utilities.buildMessageTable(messageDataTable.rows)
     req.flash ("error", "Sorry. Message can not sent. Try again")
     res.status(501).render("account/createMessage", {
-      title: "New message",
+      title: "New Message",
       nav,
-      errors,
+      errors: null,
       select,
-      messageDataTable
+      table
     })
   }
 
@@ -404,7 +397,7 @@ async function replyMessage(req, res) {
       const table = await utilities.buildMessageTable(messageDataTable.rows)
       req.flash("success", "The message was sent")
       res.render("account/inbox", {
-        title: messageData.rows[0].account_firstname+ " " + messageData.rows[0].account_lastname + " " + "inbox",
+        title: `${res.locals.accountData.account_firstname} ${res.locals.accountData.account_lastname} Inbox`,
         nav,
         errors: null,
         table,
@@ -420,8 +413,7 @@ async function replyMessage(req, res) {
       const table = await utilities.buildMessageTable(messageDataTable.rows)
       req.flash("error", "Reply message was not sent")
       res.render("account/inbox", {
-        title: messageData.rows[0].account_firstname+ " " + messageData.rows[0].account_lastname + " " + "inbox",
-        firstname:  messageData.rows[0].account_firstname,
+        title: `${res.locals.accountData.account_firstname} ${res.locals.accountData.account_lastname} Inbox`,        firstname:  messageData.rows[0].account_firstname,
         lastname: messageData.rows[0].account_lastname,
         nav,
         errors: null,
@@ -455,7 +447,7 @@ async function markAsRead(req, res) {
       from: messageData.rows[0].account_firstname + " " + messageData.rows[0].account_lastname,
       message: message[0].message_body,
       created: message[0].message_created,
-      errors:null,
+      errors: null,
       message_id
     })
 } else {
@@ -466,7 +458,7 @@ async function markAsRead(req, res) {
     from: messageData.rows[0].account_firstname + " " + messageData.rows[0].account_lastname,
     message: message[0].message_body,
     created: message[0].message_created,
-    errors:null,
+    errors: null,
     message_id
   })
 }

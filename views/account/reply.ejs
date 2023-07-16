@@ -17,7 +17,7 @@
   <%#- messageId %>
 
   <!-- Replying message Form-->
-  <form action="/account/reply" method="post">
+  <form id="replyMessageForm" action="/account/reply" method="post">
     <fieldset>
         <label for="message_from" id="accountNames">Reply To:</label> <br>
         <input name="message_from" type="text" readonly value= "<%- locals.accountData.account_firstname %> <%- locals.accountData.account_lastname %>"> <br>
@@ -34,4 +34,4 @@
     </fieldset>
   </form>
 
-  <a href="/account/inbox/<%- locals.accountData.account_id %>">Go to inbox</a>
+  <a href="/account/inbox/<%- locals.accountData.account_id %>">Return to inbox</a>

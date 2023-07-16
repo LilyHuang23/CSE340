@@ -177,7 +177,8 @@ nav ul li a{
 }
 /* account activity */
 /* form sign in  */
-#loginForm, #registrationForm, #classificationForm, #inventoryForm{
+#loginForm, #registrationForm, #classificationForm,
+ #inventoryForm, #createMessageForm, #replyMessageForm{
   background: rgb(146, 146, 241);
   border: 2px solid black;
   border-radius: 5%;
@@ -230,7 +231,20 @@ input:required:invalid, input:focus:invalid, textarea:required:invalid, select:r
   background-position: right top;
   background-repeat: no-repeat;
   }
- 
+ /* table style */
+ table, td, th {  
+  border: 1px solid #ddd;
+  text-align: left;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+th, td {
+  padding: 15px;
+}
 @media screen and (min-width: 600px) {
   html{
     background-image: url("../images/site/checkerboard.jpg");

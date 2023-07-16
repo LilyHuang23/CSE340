@@ -20,7 +20,7 @@
  <!-- Message Links to Inbox -->
  <h2>Message Center</h2>
 
-   <p>You have <%- unread %> unread messages</p>
+   <p>You have <%= locals.count %> unread messages</p>
 <a href="/account/inbox/<%- locals.accountData.account_id %>">Go to inbox</a>
 
  
